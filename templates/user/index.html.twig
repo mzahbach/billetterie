@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index{% endblock %}
+
+{% block body %}
+<div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">User</h1>
+        </div>
+    </div><!--/.row-->
+            
+    
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">User index</div>
+                <div class="panel-body">
+                    <div class="col-md-12">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                
+                <th>Email</th>
+                <th>Roles</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.roles ? user.roles|join(', ') : '' }}</td>
+                <td>
+                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
+                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="13">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+   
+</div>
+
+</div>
+</div>
+<a href="{{ path('user_new') }}">Create new</a>
+    
+</div>
+</div>
+</div>
+{% endblock %}

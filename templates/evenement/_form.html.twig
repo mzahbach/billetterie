@@ -1,0 +1,19 @@
+{{ form_start(form) }}
+{{ form_row(form.titre,{'label': 'titre','attr':
+{'placeholder': 'introduire titre'}}) }}
+{{ form_row(form.debutAt,{'label': 'debutAt'}) }}
+{{ form_row(form.finAt,{'label': 'finAt'}) }}
+{{ form_row(form.prix,{'label': 'prix','attr':
+{'placeholder': 'Prix de l evenement'}}) }}
+{{ form_row(form.devises) }}
+{{ form_row(form.nbrPlace,{'label': 'nbrPlace','attr':
+{'placeholder': 'nombre d evenement'}}) }}
+{{ form_row(form.image,{'label': 'image'}) }}
+{{ form_row(form.category) }}
+{{ form_row(form.description,{'label': 'description','attr':
+{'placeholder': 'description de l evenement '}}) }}
+{{ form_row(form.lieux,{'label': 'lieux','attr':
+{'placeholder': 'Adresse de levenement'}}) }}
+
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

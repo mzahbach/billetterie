@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EspaceAdminController!{% endblock %}
+
+{% block body %}
+<!--/.sidebar-->
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+<a href="{{ path('eventfront') }}"> </a>
+
+
+
+<section class="pb100">
+        {% for evenement in evenements %}
+        <div class="row justify-content-center no-gutters">
+       
+            <div class="col-md-3 col-sm-6">
+                <div class="speaker_box">
+                    <div class="speaker_img">
+                        <img width="382" height="385" src="/uploads/{{ evenement.image }}" alt="speaker name">
+                        <div class="info_box">
+                            <h5 class="name">{{ evenement.titre }}</h5>
+                            <p class="position">{{ evenement.debutAt ? evenement.debutAt|date('Y-m-d') : '' }} | Prix :{{ evenement.prix }} {{ evenement.devises.titre }}</p>
+                        </div>
+                    </div>
+                    <div class="speaker_social">
+                        <p>
+                                {{ evenement.description }}
+                        </p>
+                        <ul>
+                            <li>
+                                <a href="#"><i class="ion-social-facebook"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-social-twitter"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ion-social-instagram"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+            {% endfor %}
+            <a href="{{ path('eventfront') }}" class="btn btn-primary btn-rounded">Partir Front</a>
+        
+</section>
+
+
+        {% else %}
+            {% block fos_user_content %}
+            
+                 
+            {% endblock fos_user_content %}
+        {% endif %}
+
+        
+        
+ 
+{% endblock %}
