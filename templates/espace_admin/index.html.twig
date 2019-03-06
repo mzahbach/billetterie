@@ -10,8 +10,9 @@
 
 
 <section class="pb100">
+    <div class="row justify-content-center no-gutters">
         {% for evenement in evenements %}
-        <div class="row justify-content-center no-gutters">
+        
        
             <div class="col-md-3 col-sm-6">
                 <div class="speaker_box">
@@ -41,8 +42,9 @@
                 </div>
             </div>
     
-        </div>
+        
             {% endfor %}
+            
             <a href="{{ path('eventfront') }}" class="btn btn-primary btn-rounded">Partir Front</a>
         
 </section>

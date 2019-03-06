@@ -1,0 +1,82 @@
+{% extends 'baseF.html.twig' %}
+
+{% block body %}
+<!--page title section-->
+<section class="inner_cover parallax-window" data-parallax="scroll" >
+    <div class="overlay_dark" style="background: url('assets/img/bg/bg-img.png');"></div>
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-12">
+                <div class="inner_cover_content">
+                    <h3>
+                       Events
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="breadcrumbs">
+            <ul>
+                <li><a href="#">Evenement</a>  |   </li>
+                <li><span>Detail de l'Events</span></li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--page title section end-->
+
+
+<!--events section -->
+<section class="pt100 pb100">
+    <div class="container">
+
+        <div class="event_box">
+            <img height="590" width="1161" src="/uploads/{{ evenement.image }}" alt="event">
+            <div class="event_info">
+                <div class="event_title">
+                    {{ evenement.titre }}
+                </div>
+                <div class="speakers">
+                    <strong>{{ evenement.category.titre }}</strong>
+                    <span>Prix : {{ evenement.prix }} {{ evenement.devises.titre }} | emplacement : {{ evenement.lieux }}</span>
+                </div>
+                <div class="event_date">
+                    Commence le : {{evenement.debutAt ? evenement.debutAt|date('Y-m-d') : '' }}  a {{evenement.debutAt ? evenement.debutAt|date('H:i ') : '' }}<br>
+                    se termine le : {{ evenement.finAt ? evenement.finAt|date('Y-m-d') : '' }} a {{ evenement.finAt ? evenement.finAt|date('H:i') : '' }}
+
+                </div>
+            </div>
+            <div class="event_word">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-12">
+                        {{ evenement.description }}
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+<!--get tickets section -->
+
+<section class="bg-img pt100 pb100" style="background-image: url('assets/img/bg/tickets.png');">
+    <div class="container">
+        <div class="section_title mb30">
+            <h3 class="title color-light">
+                GEt your tikets
+            </h3>
+        </div>
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-9 text-md-left text-center color-light">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rhoncus massa nec gravida tempus. Integer iaculis in aazzzCurabitur a pulvinar nunc. Maecenas laoreet finibus lectus, at volutpat ligula euismod.
+            </div>
+            <div class="col-md-3 text-md-right text-center">
+                <a href="#" class="btn btn-primary btn-rounded mt30">buy now</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!--get tickets section end-->
+
+
+{% endblock %}

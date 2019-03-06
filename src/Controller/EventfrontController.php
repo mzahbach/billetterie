@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repository\EvenementRepository;
+use App\Entity\Evenement;
 
 
 
@@ -30,4 +31,13 @@ class EventfrontController extends AbstractController
             'evenements' => $evenementRepository->findAll(),
         ]);
     }
+    /**
+     * @Route("/{id}", name="detailevent")
+     */
+     public function DetailEvent(Evenement $evenement):Response
+     {
+            return $this->render('eventfront/showEvent.html.twig',[
+                'evenement' => $evenement,
+            ]);
+     }
 }
