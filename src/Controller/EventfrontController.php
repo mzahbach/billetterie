@@ -7,18 +7,48 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repository\EvenementRepository;
 use App\Entity\Evenement;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 
-
+/**
+ * @Route("/Evento")
+ */
 class EventfrontController extends AbstractController
 {
     /**
-     * @Route("/Evento", name="eventfront")
+     * @Route("/index", name="eventfront")
      */
     public function index(EvenementRepository $evenementRepository): Response
-    {
+    {  
+        $event = new Evenement();
+        $n=0;
+        $now= (new \DateTime());
+        
+      //  dump($interval);
+        
+        $events = $evenementRepository->OrderByDate();
+           
+            $newEvnt = $evenementRepository->OrderByDate();
+            dump($newEvnt);
+
+                    $sEvent1=($events[0]);
+                    $sEvent2=($events[1]);
+                    $sEvent3=($events[2]);
+            $interval = $now->diff($sEvent1->getDebutAt());
+    
+             
+                
+            
+          
+        
         return $this->render('eventfront/index.html.twig', [
             'evenements' => $evenementRepository->findAll(),
+            'Sevent1' => $sEvent1,
+            'Sevent2' => $sEvent2,
+            'Sevent3' => $sEvent3,
+            'interval' => $interval,
+
         ]);
     }
 
@@ -32,7 +62,7 @@ class EventfrontController extends AbstractController
         ]);
     }
     /**
-     * @Route("/{id}", name="detailevent")
+     * @Route("event/{id}", name="detailevent")
      */
      public function DetailEvent(Evenement $evenement):Response
      {

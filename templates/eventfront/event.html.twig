@@ -1,7 +1,7 @@
 {% extends "baseF.html.twig" %}
 {% block body %}
 <section class="inner_cover parallax-window" data-parallax="scroll" data-image-src="#">
-    <div class="overlay_dark" style="background: url('assets/img/bg/inner_cover.png');"></div>
+    <div class="overlay_dark" style="background: url('/assets/img/bg/inner_cover.png');"></div>
     <div class="container" >
         <div class="row justify-content-center align-items-center">
             <div class="col-12">
@@ -38,7 +38,7 @@
 </section>
 <!--about section end -->
 
-<!--speaker section-->
+<!--Event section-->
 <section class="pb100">
     <div class="row justify-content-center no-gutters">
    {% for evenement in evenements %}
@@ -48,7 +48,7 @@
                     <img width="382" height="385" src="/uploads/{{ evenement.image }}" alt="speaker name">
                     <div class="info_box">
                         <h5 class="name">{{ evenement.titre }}</h5>
-                        <p class="position">{{ evenement.debutAt ? evenement.debutAt|date('Y-m-d') : '' }} | Prix :{{ evenement.prix }} {{ evenement.devises.titre }}</p>
+                        <p class="position">{{ evenement.debutAt ? evenement.debutAt|date('Y-m-d') : '' }} | Prix :{{ evenement.prix }} {{ evenement.devises.titre }} | Place dispo {{ evenement.nbrPlace }}</p>
                     </div>
                 </div>
                 <div class="speaker_social">
@@ -78,26 +78,7 @@
         
     </div>
 </section>
-<!--speaker section end -->
+<!--event section end -->
 
-<!--get tickets section -->
-<section class="bg-img pt100 pb100" style="background-image: url('assets/img/bg/tickets.png');">
-    <div class="container">
-        <div class="section_title mb30">
-            <h3 class="title color-light">
-                GEt your tikets
-            </h3>
-        </div>
-        <div class="row justify-content-center align-items-center">
-            <div class="col-md-9 text-md-left text-center color-light">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rhoncus massa nec gravida tempus. Integer iaculis in aazzzCurabitur a pulvinar nunc. Maecenas laoreet finibus lectus, at volutpat ligula euismod.
-            </div>
-            <div class="col-md-3 text-md-right text-center">
-                <a href="#" class="btn btn-primary btn-rounded mt30">buy now</a>
-            </div>
-        </div>
-    </div>
-</section>
-<!--get tickets section end-->
 
 {% endblock %} 
