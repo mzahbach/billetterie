@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints\DateTime;
 class EventfrontController extends AbstractController
 {
     /**
-     * @Route("/index", name="eventfront")
+     * @Route("/", name="eventfront")
      */
     public function index(EvenementRepository $evenementRepository): Response
     {  
@@ -28,7 +28,7 @@ class EventfrontController extends AbstractController
       //  dump($interval);
         
         $events = $evenementRepository->OrderByDate();
-           
+     
             $newEvnt = $evenementRepository->OrderByDate();
             dump($newEvnt);
 
@@ -43,7 +43,7 @@ class EventfrontController extends AbstractController
           
         
         return $this->render('eventfront/index.html.twig', [
-            'evenements' => $evenementRepository->findAll(),
+            'evenements' => $events,
             'Sevent1' => $sEvent1,
             'Sevent2' => $sEvent2,
             'Sevent3' => $sEvent3,

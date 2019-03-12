@@ -32,7 +32,7 @@
                                 <h2 class="cover-title">
                                         {{ Sevent2.titre }}
                                 </h2>
-                                <strong class="cover-xl-text">{{ Sevent2.category.titre }}/strong>
+                                <strong class="cover-xl-text">{{ Sevent2.category.titre }}</strong>
                                 <p class="cover-date">
                                     {{ Sevent2.debutAt ? Sevent2.debutAt|date('F j, Y,') : '' }}  | {{ Sevent2.lieux }}
                                 </p>
@@ -87,6 +87,9 @@
                                 DATE
                             </h5>
                             <p>
+                                    {{ Sevent3.debutAt ? Sevent3.debutAt|date('n') }}
+                                    {{ Sevent3.debutAt ? Sevent3.debutAt|date('j') }}
+                                    {{ Sevent3.debutAt ? Sevent3.debutAt|date('Y') }}
                                 12-14 february 2018
                             </p>
                         </div>
@@ -174,10 +177,54 @@
                         Lorem ipsum dolor sit amet, consectetur adipiscing eli. Integer iaculis in lacus a sollicitudin. Ut hendrerit hendrerit nisl a accumsan. Pellentesque convallis consectetur tortor id placerat. Curabitur a pulvinar nunc. Maecenas laoreet finibus lectus, at volutpat ligula euismod.
                     </p>
                 </div>
-                <div class="col-12 col-md-6">
-                    <p>
-                        In rhoncus massa nec  sollicitudin. Ut hendrerit hendrerit nisl a accumsan. Pellentesque convallis consectetur tortor id placerat. Curabitur a pulvinar nunc. Maecenas laoreet finibus lectus, at volutpat ligula euismod quis. Maecenas ornare, ex in malesuada tempus.
-                    </p>
+                <div class="col-12 col-md-12">
+                  test
+                  <div class="container">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <h1 class="page-header">jQuery.<small>Jdida-Calendar</small>
+                            </h1>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="calendar hidden-print">
+                              <header>
+                                <h2 class="month"></h2>
+                                <a class="btn-prev fontawesome-angle-left" href="#"></a>
+                                <a class="btn-next fontawesome-angle-right" href="#"></a>
+                              </header>
+                              <table>
+                                <thead class="event-days">
+                                  <tr></tr>
+                                </thead>
+                                <tbody class="event-calendar">
+                                  <tr class="1"></tr>
+                                  <tr class="2"></tr>
+                                  <tr class="3"></tr>
+                                  <tr class="4"></tr>
+                                  <tr class="5"></tr>
+                                </tbody>
+                              </table>
+                              
+                         <div class="list">
+                            {% for evenement in evenements %}
+                                <div class="day-event" date-day="{{ evenement.debutAt ? evenement.debutAt|date('j') }}" date-month="{{ evenement.debutAt ? evenement.debutAt|date('n') }}" date-year="{{ evenement.debutAt ? evenement.debutAt|date('Y') }}"  data-number="1">
+                                        <a href="#" class="close fontawesome-remove"></a>
+                                        <h2 class="title">{{ evenement.titre }}</h2>
+                                        {{ evenement.description }}
+                                        <label class="check-btn">
+                                        <a class="btn btn-primary btn-rounded" href="#">Detail</a>
+                                        </label>
+                                      </div>
+                             {% endfor %} 
+                         </div>
+                              
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      ------------------
                 </div>
             </div>
     
@@ -585,26 +632,7 @@
     </section>
     <!--brands section end-->
     
-    <!--get tickets section -->
-    <section class="bg-img pt100 pb100" style="background-image: url('/assets/img/bg/tickets.png');">
-        <div class="container">
-            <div class="section_title mb30">
-                <h3 class="title color-light">
-                    GEt your tikets
-                </h3>
-            </div>
-            <div class="row justify-content-center align-items-center">
-                <div class="col-md-9 text-md-left text-center color-light">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rhoncus massa nec gravida tempus. Integer iaculis in aazzzCurabitur a pulvinar nunc. Maecenas laoreet finibus lectus, at volutpat ligula euismod.
-                </div>
-                <div class="col-md-3 text-md-right text-center">
-                    <a href="#" class="btn btn-primary btn-rounded mt30">buy now</a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--get tickets section end-->
-
+    
 
    
    

@@ -95,7 +95,7 @@
                             <div class="profile-usertitle">
                                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                                 <div class="profile-usertitle-name"> <a href="/profile/edit"> {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} </a> </div>
-                                <div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>      
+                                <div class="profile-usertitle-status"><span class="indicator label-success"></span>Online </div>      
                                 {% endif %}  
                                 
                             </div>
@@ -118,7 +118,7 @@
                             </ul>
                              {% else %}
                              <li><a href="{{ path('fos_user_security_login') }}"><em class="fa fa-power-off">&nbsp;</em> {{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></li>
-                             <li><a href="/register"><em class="fa fa-power-off">&nbsp;</em> Inscription</a></li>
+                             <li><a href="/Evento/register"><em class="fa fa-power-off">&nbsp;</em> Inscription</a></li>
                             </ul>
                             {% endif %}
                            

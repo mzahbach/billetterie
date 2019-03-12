@@ -24,7 +24,7 @@ security:
 
             logout: 
                  path: fos_user_security_logout
-                 target: /login
+                 target: /Evento/login
             
             anonymous: true
 
@@ -41,7 +41,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/Evento/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/Evento/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
