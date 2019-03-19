@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Evenement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use App\Entity\PropertySearch;
+use App\Entity\Category;
 
 /**
  * @method Evenement|null find($id, $lockMode = null, $lockVersion = null)
@@ -31,6 +33,50 @@ class EvenementRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+
+    
+
+    /**
+     * @return Evenement[] 
+     */
+    public function findByCategiry(Category $cat)
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.category.titre = :val')
+            ->setParameter('val', $cat)
+            ->orderBy('e.debutAt','DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    /**
+     * @return Evenement[] 
+     */
+    public function findBytitre(PropertySearch $search)
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.titre LIKE :val OR e.debutAt LIKE :val OR e.finAt LIKE :val OR e.prix LIKE :val ')
+            ->setParameter('val', '%'.$search->getTitreSearch().'%')
+            ->orderBy('e.debutAt','DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
+     * @return Evenement[] 
+     */
+    public function findDate(PropertySearch $search)
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.titre LIKE :val OR e.debutAt LIKE :val OR e.finAt LIKE :val OR e.prix LIKE :val ')
+            ->setParameter('val', '%'.$search->getTitreSearch().'%')
+            ->orderBy('e.debutAt','DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 
     // /**
     //  * @return Evenement[] Returns an array of Evenement objects

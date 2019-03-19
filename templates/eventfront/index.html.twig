@@ -87,9 +87,6 @@
                                 DATE
                             </h5>
                             <p>
-                                    {{ Sevent3.debutAt ? Sevent3.debutAt|date('n') }}
-                                    {{ Sevent3.debutAt ? Sevent3.debutAt|date('j') }}
-                                    {{ Sevent3.debutAt ? Sevent3.debutAt|date('Y') }}
                                 12-14 february 2018
                             </p>
                         </div>
@@ -178,11 +175,12 @@
                     </p>
                 </div>
                 <div class="col-12 col-md-12">
-                  test
-                  <div class="container">
+                  
+                  <div class="container" id="calemp">
                         <div class="row">
                           <div class="col-lg-12">
-                            <h1 class="page-header">jQuery.<small>Jdida-Calendar</small>
+                               
+                            <h1 class="page-header">evenement.<small>calendrier</small>
                             </h1>
                           </div>
                         </div>
@@ -191,8 +189,8 @@
                             <div class="calendar hidden-print">
                               <header>
                                 <h2 class="month"></h2>
-                                <a class="btn-prev fontawesome-angle-left" href="#"></a>
-                                <a class="btn-next fontawesome-angle-right" href="#"></a>
+                                <a class="btn-prev fontawesome-angle-left" href="#calemp"></a>
+                                <a class="btn-next fontawesome-angle-right" href="#calemp"></a>
                               </header>
                               <table>
                                 <thead class="event-days">
@@ -214,7 +212,7 @@
                                         <h2 class="title">{{ evenement.titre }}</h2>
                                         {{ evenement.description }}
                                         <label class="check-btn">
-                                        <a class="btn btn-primary btn-rounded" href="#">Detail</a>
+                                        <a class="btn btn-primary btn-rounded" href="{{ path('detailevent', {'id': evenement.id}) }}">Voir detail</a>
                                         </label>
                                       </div>
                              {% endfor %} 
@@ -224,7 +222,7 @@
                           </div>
                         </div>
                       </div>
-                      ------------------
+                      
                 </div>
             </div>
     
