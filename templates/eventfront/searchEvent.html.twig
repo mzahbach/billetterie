@@ -76,20 +76,24 @@
                         <ul>
                             {% for arch in archives %}
 
-                            <li><a  href="{{ path('searchEvent', {'date': arch.debutAt ? arch.debutAt|date('m-Y') : ''}) }}">{{ arch.debutAt ? arch.debutAt|date('F Y') : '' }}</a></li>
+                            <li><a  href="{{ path('searchEvent', {'date': arch.debutAt ? arch.debutAt|date('m-Y') : '' , 'id': 'null'}) }}">{{ arch.debutAt ? arch.debutAt|date('F Y') : '' }}</a></li>
                             {% endfor %}
                         </ul>
                     </div>
                     <div class="widget widget_categories">
+                            {% if '-' in app.request.requestUri %}
+                            
                         <h4 class="widget-title">
-                            Categories
-                        </h4>
+                            Categories {{ app.request.requestUri }}
+                        </h4>                    
+                        
                         {% for categorie in categorys %}
                         <ul>
                                 
-                            <li><a href="{{ path('searchEvent', {'date': categorie.id}) }}">{{ categorie.titre }}</a></li>
+                            <li><a href="{{ path('searchEvent', {'date': date ,'id': categorie.id }) }}">{{ categorie.titre }}</a></li>
                         </ul>
                         {% endfor %}
+                        {% endif %}
                     </div>
 
                     <div class="widget widget_latest_post">

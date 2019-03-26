@@ -1,4 +1,5 @@
 {% extends 'baseF.html.twig' %}
+{% form_theme formEvent 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
 <!--page title section-->
@@ -58,10 +59,46 @@
                         </div>
                 </div>
             </div>
+            <!--events commentaire -->
+            <div class="section_title">
+                    <h3 class="title">
+                        Commentire :
+                    </h3>
+                </div>
+        {% for comment in evenement.comments %}
+        <div class="comment">
+            <div class="row">
+                <div class="col-3">
+                    <h5>{{ comment.users.username }}</h5> (<small>{{ comment.createdAt | date('d/m/Y - H:i') }}</small>)
+                </div>
+                <div class="col">
+                    {{ comment.content | raw }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        {{ form_start(formEvent) }}
+        <div class="comment">
+                <div class="row">
+                        <div class="col-3">
+                               <h2> {{ app.user.username }} </h2>
+                         </div>
+                         <div class="col">
+                                {{ form_row(formEvent.content, {'attr':{'placeholder': "commenté..."}}) }}
+                                <button class="btn">{{ button_label|default('commenter') }}</button>
+                            </div>
+                </div>
+        </div>
+        {{ form_end(formEvent) }}
+        {% endif %}
             
         </div>
     </div>
 </section>
+<!--events section -->
+
+
 <!--get tickets section -->
 
 <section class="bg-img pt100 pb100" style="background-image: url('/assets/img/bg/tickets.png');">

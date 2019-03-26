@@ -17,6 +17,9 @@ use App\Repository\CategoryRepository;
 use App\Entity\Category;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Migrations\Events;
+use App\Entity\Comment;
+use App\Entity\User;
+use App\Form\CommentType;
 
 
 /**
@@ -106,15 +109,16 @@ class EventfrontController extends AbstractController
     }
 
    /**
-    * @Route("/search/{date}" , name="searchEvent")
+    * @Route("/search/{date}/{id}" , defaults={"date" = null},defaults={"id" = null}, name="searchEvent")
     *
     * @param EvenementRepository $event
     * @return Response
     */
-    public function SearchEvent( EvenementRepository $event, CategoryRepository $catRepo , $date) :Response
+    public function SearchEvent( EvenementRepository $event, CategoryRepository $catRepo , $date,$id) :Response
     {
         
 
+       dump($date);
        dump($date);
         
         $categorys = $catRepo->findAll();
@@ -146,17 +150,36 @@ class EventfrontController extends AbstractController
                             'eventsdate' => $events
                             
                         ]);
-                    }  else {
+                    } elseif($date!= "null" AND $id!= "null"){
+                            $eventDC= $event->findByCategiryDAt($catRepo->find($id) ,$date);
+                            $evntDate=null ;
+                            foreach ($eventDC as $event) {
+                                if ($date==$event->getDebutAt()->format('m-Y')) {
+                                     $evntDate[]=$event;
+                                  }
+                                  
+                             }
+                            
+                            return $this->render('eventfront/searchEvent.html.twig',[
+                                'categorys' => $categorys,
+                                'archives' => $EventMs,
+                                'eventsdate' => $evntDate,
+                                'date' => $date
+                                
+                                ]);
+                    } else {
+                        
                         foreach ($events as $event) {
                             if ($date==$event->getDebutAt()->format('m-Y')) {
                                  $evntDate[]=$event;
                               }
+                              
                          }
                          return $this->render('eventfront/searchEvent.html.twig',[
                             'categorys' => $categorys,
                             'archives' => $EventMs,
-                            'eventsdate' => $evntDate
-                            
+                            'eventsdate' => $evntDate,
+                            'date' => $date
                         ]);
                     }
 
@@ -181,7 +204,7 @@ class EventfrontController extends AbstractController
             $catgTitre[] = $cat->getTitre();
         }
         
-        return $this->json(['code' => 200, 'message' => $catgTitre], 200);
+        return $this->json([$catgTitre], 200);
     }
 
 
@@ -189,12 +212,30 @@ class EventfrontController extends AbstractController
     /**
      * @Route("event/{id}", name="detailevent")
      */
-     public function DetailEvent(Evenement $evenement):Response
+     public function DetailEvent(Evenement $evenement,Request $request):Response
      {
+        $comment =new Comment();
+        $user = new User();
+        $formEvent = $this->createForm(CommentType::class,$comment);
+        $formEvent->handleRequest($request);
+        dump($user->getId());
+        if ($formEvent->isSubmitted() && $formEvent->isValid()) {
+            $comment->setCreatedAt(new \DateTime());
+            $comment->setUsers($user);
+            $comment->setEvenement($evenement);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+            return $this->redirectToRoute('detailevent',['id'=>$evenement->getId()]);
+        }
+        
             return $this->render('eventfront/showEvent.html.twig',[
                 'evenement' => $evenement,
+                'formEvent' => $formEvent->createView(),
             ]);
      }
+
+     
 
 
      /**

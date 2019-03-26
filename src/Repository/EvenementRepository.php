@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use App\Entity\PropertySearch;
 use App\Entity\Category;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @method Evenement|null find($id, $lockMode = null, $lockVersion = null)
@@ -39,11 +40,12 @@ class EvenementRepository extends ServiceEntityRepository
     /**
      * @return Evenement[] 
      */
-    public function findByCategiry(Category $cat)
+    public function findByCategiryDAt(Category $cat )
     {
+        dump($cat);
         return $this->createQueryBuilder('e')
-            ->where('e.category.titre = :val')
-            ->setParameter('val', $cat)
+            ->where('e.category = :val')
+            ->setParameter('val', $cat->getId())
             ->orderBy('e.debutAt','DESC')
             ->getQuery()
             ->getResult()
