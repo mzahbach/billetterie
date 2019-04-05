@@ -77,9 +77,15 @@ class Evenement
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CategoryPrice", mappedBy="event")
+     */
+    private $categoryPrices;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->categoryPrices = new ArrayCollection();
     }
 
     
@@ -235,6 +241,37 @@ class Evenement
             // set the owning side to null (unless already changed)
             if ($comment->getEvenement() === $this) {
                 $comment->setEvenement(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CategoryPrice[]
+     */
+    public function getCategoryPrices(): Collection
+    {
+        return $this->categoryPrices;
+    }
+
+    public function addCategoryPrice(CategoryPrice $categoryPrice): self
+    {
+        if (!$this->categoryPrices->contains($categoryPrice)) {
+            $this->categoryPrices[] = $categoryPrice;
+            $categoryPrice->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategoryPrice(CategoryPrice $categoryPrice): self
+    {
+        if ($this->categoryPrices->contains($categoryPrice)) {
+            $this->categoryPrices->removeElement($categoryPrice);
+            // set the owning side to null (unless already changed)
+            if ($categoryPrice->getEvent() === $this) {
+                $categoryPrice->setEvent(null);
             }
         }
 

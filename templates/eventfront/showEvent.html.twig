@@ -100,7 +100,7 @@
 
 
 <!--get tickets section -->
-
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 <section class="bg-img pt100 pb100" style="background-image: url('/assets/img/bg/tickets.png');">
     <div class="container">
         <div class="section_title mb30">
@@ -113,12 +113,12 @@
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rhoncus massa nec gravida tempus. Integer iaculis in aazzzCurabitur a pulvinar nunc. Maecenas laoreet finibus lectus, at volutpat ligula euismod.
             </div>
             <div class="col-md-3 text-md-right text-center">
-                <a href="#" class="btn btn-primary btn-rounded mt30">buy now</a>
+                <a href="{{ path('PackEvent', {'id': evenement.id}) }}" class="btn btn-primary btn-rounded mt30">buy now</a>
             </div>
         </div>
     </div>
 </section>
 <!--get tickets section end-->
-
+{% endif %}
 
 {% endblock %}

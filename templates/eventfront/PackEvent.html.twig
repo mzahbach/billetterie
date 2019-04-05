@@ -1,0 +1,107 @@
+{% extends 'baseF.html.twig' %}
+
+{% block body %}
+
+<!--page title section-->
+<section class="inner_cover parallax-window" data-parallax="scroll" >
+    <div class="overlay_dark" style="background: url('/assets/img/bg/bg-img.png');"></div>
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-12">
+                <div class="inner_cover_content">
+                    <h3>
+                       Events
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="breadcrumbs">
+            <ul>
+                <li><a href="#">Evenement</a>  |   </li>
+                <li><span>Pack de l'Events</span></li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--page title section end-->
+
+<!--Price section-->
+<section class="pb100">
+    <div class="container">
+        <div class="section_title mb50">
+                <h3 class="title">
+                        {{ evenement.titre }}
+                    </h3>
+                </div>
+                <div id="progression">
+                        <span class="etape fait">
+                            1<div class="desc">Pack Evenement</div>
+                        </span><span class="ligne ">
+                        </span><span class="etape">
+                            2<div class="desc">Modules</div>
+                        </span><span class="ligne ">
+                        </span><span class="etape">
+                            3<div class="desc">Electrical</div>
+                        </span><span class="ligne">
+                        </span><span class="etape">
+                            4<div class="desc">Decoration</div>
+                        </span><span class="ligne">
+                        </span><span class="etape">
+                            5<div class="desc">Complete & Save</div>
+                        </span>
+                    </div>
+           <br><br>
+
+        <div class="row justify-content-center">
+            
+            {% for pack in evenement.categoryPrices %}
+            
+           
+            {% set form =  pack.form.createView %}
+            
+                                   
+            <div class="col-md-4 col-12">
+                    <div class="price_box">
+                        <div class="price_header">
+                            <h4>
+                                    {{ pack.titre}}
+                            </h4>
+                            <h6>
+                                Le :  {{ evenement.debutAt ? evenement.debutAt|date('j') : '' }} - {{ evenement.debutAt ? evenement.debutAt|date('F') : '' }}
+                            </h6>
+                        </div>
+                        <div class="price_tag">
+                                {{ evenement.prix - (evenement.prix * pack.discount ) }} <sup>{{ evenement.devises.titre }}</sup>
+                        </div>
+                        <div class="price_features">
+                            <ul>
+                                <li>
+                                    Nombre de Place dispo : {{ evenement.nbrPlace }}
+                                </li>
+                                <li>
+                                    {{ pack.id }}
+                                    {{ evenement.category.titre }}
+                                </li>
+                                <li>
+                                    {{ form_start(form) }}
+                                        {{ form_row(form.NbrPlace, {'label': 'Nombre de palace'}) }}
+                                         {{ form_row(form.reservez, {'label': 'reservez'~ pack.id }) }}                    
+                                        {{ form_end(form) }}
+                                </li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            {% endfor %}
+            
+            
+        </div>
+    </div>
+</section>
+
+<!--price section end -->
+
+{% endblock %}

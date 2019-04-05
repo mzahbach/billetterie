@@ -26,10 +26,18 @@ class User extends BaseUser
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Panier", mappedBy="users")
+     */
+    private $paniers;
+
+    
+
     public function __construct()
     {
         parent::__construct();
         $this->comments = new ArrayCollection();
+        $this->paniers = new ArrayCollection();
         // your own logic
     }
     public function getId(): ?int
@@ -67,4 +75,37 @@ class User extends BaseUser
 
         return $this;
     }
+
+    /**
+     * @return Collection|Panier[]
+     */
+    public function getPaniers(): Collection
+    {
+        return $this->paniers;
+    }
+
+    public function addPanier(Panier $panier): self
+    {
+        if (!$this->paniers->contains($panier)) {
+            $this->paniers[] = $panier;
+            $panier->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanier(Panier $panier): self
+    {
+        if ($this->paniers->contains($panier)) {
+            $this->paniers->removeElement($panier);
+            // set the owning side to null (unless already changed)
+            if ($panier->getUsers() === $this) {
+                $panier->setUsers(null);
+            }
+        }
+
+        return $this;
+    }
+
+    
 }

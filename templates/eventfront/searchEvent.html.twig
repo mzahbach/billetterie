@@ -104,57 +104,37 @@
                             
                             <li>
                                 <div class="widget_recent_posts">
-                                    <img src="/assets/img/blog/blog1.png" alt="news">
+                                    <img height="62" width="100" src="/uploads/{{ event1.image }}" alt="news">
                                     <div class="content">
-                                        <a href="#">Uncategorized</a>
-                                        <p>by Jane Smith / Aug 25, 2017</p>
+                                        <a href="#">{{ event1.titre}}</a>
+                                        <p> {{ event1.debutAt ? event1.debutAt|date('F j, Y,') : '' }}</p>
                                     </div>
                                 </div>
                             </li>
+                            <li>
+                                    <div class="widget_recent_posts">
+                                        <img height="62" width="100" src="/uploads/{{ event2.image }}" alt="news">
+                                        <div class="content">
+                                            <a href="#">{{ event2.titre}}</a>
+                                            <p> {{ event2.debutAt ? event2.debutAt|date('F j, Y,') : '' }}</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                        <div class="widget_recent_posts">
+                                            <img height="62" width="100" src="/uploads/{{ event3.image }}" alt="news">
+                                            <div class="content">
+                                                <a href="#">{{ event3.titre}}</a>
+                                                <p> {{ event3.debutAt ? event3.debutAt|date('F j, Y,') : '' }}</p>
+                                            </div>
+                                        </div>
+                                    </li>
                           
-                            <li>
-                                <div class="widget_recent_posts">
-                                    <img src="/assets/img/blog/blog2.png" alt="news">
-                                    <div class="content">
-                                        <a href="#">Uncategorized</a>
-                                        <p>by Jane Smith / Aug 25, 2017</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="widget_recent_posts">
-                                    <img src="/assets/img/blog/blog3.png" alt="news">
-                                    <div class="content">
-                                        <a href="#">Uncategorized</a>
-                                        <p>by Jane Smith / Aug 25, 2017</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="widget_recent_posts">
-                                    <img src="/assets/img/blog/blog1.png" alt="news">
-                                    <div class="content">
-                                        <a href="#">Uncategorized</a>
-                                        <p>by Jane Smith / Aug 25, 2017</p>
-                                    </div>
-                                </div>
-                            </li>
+                            
                         </ul>
                     </div>
 
-                    <div class="widget widget_instagram">
-                        <h4 class="widget-title">
-                            Instagram
-                        </h4>
-                        <ul>
-                            <li><a href="#"><img src="/assets/img/blog/instagram/inst5.png" alt="instagram"></a></li>
-                            <li><a href="#"><img src="/assets/img/blog/instagram/inst2.png" alt="instagram"></a></li>
-                            <li><a href="#"><img src="/assets/img/blog/instagram/inst3.png" alt="instagram"></a></li>
-                            <li><a href="#"><img src="/assets/img/blog/instagram/inst4.png" alt="instagram"></a></li>
-                            <li><a href="#"><img src="/assets/img/blog/instagram/inst5.png" alt="instagram"></a></li>
-                            <li><a href="#"><img src="/assets/img/blog/instagram/inst6.png" alt="instagram"></a></li>
-                        </ul>
-                    </div>
+                    
                     <div class="widget widget_tags">
                         <h4 class="widget-title">
                             Tags

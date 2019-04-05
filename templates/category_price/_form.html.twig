@@ -1,0 +1,9 @@
+{{ form_start(form) }}
+{{ form_row(form.titre,{'label': 'titre','attr':
+{'placeholder': 'introduire titre'}}) }}
+{{ form_row(form.titre,{'label': 'discount','attr':
+{'placeholder': 'introduire votre discount'}}) }}
+{{ form_row(form.event) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

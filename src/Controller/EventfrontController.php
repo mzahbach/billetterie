@@ -20,6 +20,10 @@ use Doctrine\Migrations\Events;
 use App\Entity\Comment;
 use App\Entity\User;
 use App\Form\CommentType;
+use App\Entity\Panier;
+use App\Form\PanierType;
+use App\Repository\CategoryPriceRepository;
+use App\Entity\CategoryPrice;
 
 
 /**
@@ -118,12 +122,16 @@ class EventfrontController extends AbstractController
     {
         
 
-       dump($date);
-       dump($date);
+       
+
+                
         
         $categorys = $catRepo->findAll();
 
         $events = $event->OrderByDate(); 
+        $sEvent1=($events[0]);
+        $sEvent2=($events[1]);
+        $sEvent3=($events[2]);
         $i=0; 
         $t=0;
        
@@ -143,11 +151,14 @@ class EventfrontController extends AbstractController
                     }
                     
                
-                    if ($date==0) {
+                    if ($date=="null") {
                         return $this->render('eventfront/searchEvent.html.twig',[
                             'categorys' => $categorys,
                             'archives' => $EventMs,
-                            'eventsdate' => $events
+                            'eventsdate' => $events,
+                            'event1' => $sEvent1,
+                            'event2' =>$sEvent2,
+                            'event3' =>$sEvent3
                             
                         ]);
                     } elseif($date!= "null" AND $id!= "null"){
@@ -164,7 +175,10 @@ class EventfrontController extends AbstractController
                                 'categorys' => $categorys,
                                 'archives' => $EventMs,
                                 'eventsdate' => $evntDate,
-                                'date' => $date
+                                'date' => $date,
+                                'event1' => $sEvent1,
+                                'event2' =>$sEvent2,
+                                'event3' =>$sEvent3
                                 
                                 ]);
                     } else {
@@ -179,7 +193,10 @@ class EventfrontController extends AbstractController
                             'categorys' => $categorys,
                             'archives' => $EventMs,
                             'eventsdate' => $evntDate,
-                            'date' => $date
+                            'date' => $date,
+                            'event1' => $sEvent1,
+                            'event2' =>$sEvent2,
+                            'event3' =>$sEvent3
                         ]);
                     }
 
@@ -206,6 +223,44 @@ class EventfrontController extends AbstractController
         
         return $this->json([$catgTitre], 200);
     }
+    /**
+     * @Route("Pack/{id}", name="PackEvent")
+     */
+    public function PackEvent(Evenement $evenement,EvenementRepository $eventRepo,CategoryPriceRepository $catPRepo, Request $request):Response
+    {
+             $panier = new Panier();
+           $catsPs=$catPRepo->findbyEvent($evenement);
+           foreach ($catsPs as $cat) {
+           
+            $form = $this->createForm(PanierType::class, $panier);
+            $form->handleRequest($request);
+            $cat->setForm($form);
+           }
+          
+           foreach ($catsPs as $cat) {
+               
+            if ($cat->getForm()->isSubmitted() && $cat->getForm()->isValid()&& 'reservez'.$cat->getId() === $form->getClickedButton()->getName()) {
+                $panier =$panier->setUsers($this->getUser());
+                $panier=$panier->setPack($cat);
+                $panier=$panier->setActive(true);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($panier);
+                $entityManager->flush();
+                
+    
+               
+            }
+           }
+           
+           
+               
+            
+        return $this->render('eventfront/PackEvent.html.twig',[
+            "evenement" => $evenement,
+            "pack" => $catsPs
+            
+        ]);
+    }
 
 
 
@@ -215,10 +270,10 @@ class EventfrontController extends AbstractController
      public function DetailEvent(Evenement $evenement,Request $request):Response
      {
         $comment =new Comment();
-        $user = new User();
+        $user = $this->getUser();
         $formEvent = $this->createForm(CommentType::class,$comment);
         $formEvent->handleRequest($request);
-        dump($user->getId());
+        
         if ($formEvent->isSubmitted() && $formEvent->isValid()) {
             $comment->setCreatedAt(new \DateTime());
             $comment->setUsers($user);
