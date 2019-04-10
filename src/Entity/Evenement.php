@@ -82,10 +82,16 @@ class Evenement
      */
     private $categoryPrices;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PostLike", mappedBy="post")
+     */
+    private $likes;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->categoryPrices = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     
@@ -276,6 +282,60 @@ class Evenement
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|PostLike[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+    /**
+     * ajouter un like
+     *
+     * @param PostLike $like
+     * @return self
+     */
+    public function addLike(PostLike $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setPost($this);
+        }
+
+        return $this;
+    }
+    /**
+     * suprimer un like
+     *
+     * @param PostLike $like
+     * @return self
+     */
+    public function removeLike(PostLike $like): self
+    {
+        if ($this->likes->contains($like)) {
+            $this->likes->removeElement($like);
+            // set the owning side to null (unless already changed)
+            if ($like->getPost() === $this) {
+                $like->setPost(null);
+            }
+        }
+
+        return $this;
+    }
+    /**
+     * Undocumented function pour savoir qui aime l event 
+     *
+     * @param User $user
+     * @return boolean
+     */
+    public function isLikedByUser(User $user): bool
+    {
+        foreach ($this->likes as $like) {
+            if ($like->getUser() === $user) return true;
+        }
+        return false;
     }
    
 }

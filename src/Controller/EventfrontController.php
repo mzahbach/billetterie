@@ -24,6 +24,8 @@ use App\Entity\Panier;
 use App\Form\PanierType;
 use App\Repository\CategoryPriceRepository;
 use App\Entity\CategoryPrice;
+use App\Repository\PostLikeRepository;
+use App\Entity\PostLike;
 
 
 /**
@@ -99,7 +101,7 @@ class EventfrontController extends AbstractController
                    'form' => $form->createView()
                 ]); 
                 }else{
-                    dump('1111');
+                   
                 return $this->render('eventfront/event.html.twig', [
                     'evenements' => $eventsResult,
                     'form' => $form->createView()
@@ -228,7 +230,7 @@ class EventfrontController extends AbstractController
      */
     public function PackEvent(Evenement $evenement,EvenementRepository $eventRepo,CategoryPriceRepository $catPRepo, Request $request):Response
     {
-             $panier = new Panier();
+           $panier = new Panier();
            $catsPs=$catPRepo->findbyEvent($evenement);
            foreach ($catsPs as $cat) {
            
@@ -236,25 +238,7 @@ class EventfrontController extends AbstractController
             $form->handleRequest($request);
             $cat->setForm($form);
            }
-          
-           foreach ($catsPs as $cat) {
-               
-            if ($cat->getForm()->isSubmitted() && $cat->getForm()->isValid()&& 'reservez'.$cat->getId() === $form->getClickedButton()->getName()) {
-                $panier =$panier->setUsers($this->getUser());
-                $panier=$panier->setPack($cat);
-                $panier=$panier->setActive(true);
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($panier);
-                $entityManager->flush();
-                
-    
-               
-            }
-           }
-           
-           
-               
-            
+         
         return $this->render('eventfront/PackEvent.html.twig',[
             "evenement" => $evenement,
             "pack" => $catsPs
@@ -303,7 +287,51 @@ class EventfrontController extends AbstractController
                
            ]);
     }
+    
 
+    /**
+     * premet de liker et unliker un event  
+     *
+     * @Route("/post/{id}/like", name="post_like")
+     * 
+     * @param Evenement $event
+     * @param ObjectManager $manager
+     * @param PostLikeRepository $likeRepo
+     * @return Response
+     */
+    public function like (Evenement $event,ObjectManager $manager, PostLikeRepository $likeRepo):Response{
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json([
+                'code'=> 403,
+                'message'=>"unauthorized"
+            ],403);
+
+        }if ($event->isLikedByUser($user)) {
+            $like = $likeRepo->findOneBy([
+                'post' => $event,
+                'user' => $user
+            ]);
+            $manager->remove($like);
+            $manager->flush();
+            return $this->json([
+                'code' => 200,
+                'message' => "like supprimer",
+                'likes' => $likeRepo->count(['post' => $event])
+            ],200);
+        }
+        $like = new PostLike();
+        $like->setPost($event)
+             ->setUser($user);
+
+        $manager->persist($like);
+        $manager->flush();
+
+        return $this->json(['code'=> 200 ,
+        'message'=>'like ajouter ',
+        'likes'=>$likeRepo->count(['post' => $event])
+    ],200);
+    }
 
 
 }

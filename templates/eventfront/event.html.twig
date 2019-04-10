@@ -67,11 +67,31 @@
                     <img width="382" height="385" src="/uploads/{{ evenement.image }}" alt="speaker name">
                     <div class="info_box">
                         <h5 class="name">{{ evenement.titre }}</h5>
-                        <p class="position">{{ evenement.debutAt ? evenement.debutAt|date('Y-m-d') : '' }} | Prix :{{ evenement.prix }} {{ evenement.devises.titre }} | Place dispo {{ evenement.nbrPlace }}</p>
+                        <p class="position">{{ evenement.debutAt ? evenement.debutAt|date('Y-m-d') : '' }} | Prix :{{ evenement.prix }} {{ evenement.devises.titre }} | Place dispo {{ evenement.nbrPlace }} | 
+                            <!--like likn-->
+                            <a href="{{ path('post_like',{'id' : evenement.id } ) }}" class="readmore_btn js-like-link">
+                            {% if app.user and evenement.isLikedByUser(app.user) %}
+                            <i class="fas fa-thumbs-up"></i>
+                            {% else %}
+                            <i class="far fa-thumbs-up"></i>
+                            {% endif %}
+                            
+                                
+                                <span class="js-LikesEvent">{{ evenement.likes | length }}</span>
+                                <span class="js-labelEvent">J'aime</span>
+                        
+                            </a>
+                            <!--end like link -->
+                        </p>
                     </div>
                 </div>
+               
+                   
+                
                 <div class="speaker_social">
+                    
                     <p>
+                        
                             {{ evenement.description }}
                     </p>
                     <ul>
@@ -84,6 +104,7 @@
                         <li>
                             <a href="#"><i class="ion-social-instagram"></i></a>
                         </li>
+                        
                         <li>
                             <a href="{{ path('detailevent', {'id': evenement.id}) }}" class="readmore_btn">+</a>
                         </li>

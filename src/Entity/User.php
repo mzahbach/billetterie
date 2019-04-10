@@ -31,6 +31,11 @@ class User extends BaseUser
      */
     private $paniers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PostLike", mappedBy="user")
+     */
+    private $likes;
+
     
 
     public function __construct()
@@ -38,6 +43,7 @@ class User extends BaseUser
         parent::__construct();
         $this->comments = new ArrayCollection();
         $this->paniers = new ArrayCollection();
+        $this->likes = new ArrayCollection();
         // your own logic
     }
     public function getId(): ?int
@@ -101,6 +107,37 @@ class User extends BaseUser
             // set the owning side to null (unless already changed)
             if ($panier->getUsers() === $this) {
                 $panier->setUsers(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PostLike[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(PostLike $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(PostLike $like): self
+    {
+        if ($this->likes->contains($like)) {
+            $this->likes->removeElement($like);
+            // set the owning side to null (unless already changed)
+            if ($like->getUser() === $this) {
+                $like->setUser(null);
             }
         }
 

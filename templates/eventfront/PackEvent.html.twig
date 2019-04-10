@@ -84,9 +84,14 @@
                                     {{ evenement.category.titre }}
                                 </li>
                                 <li>
+                                    <a href="#" readmore_btn class="js-like-link">
+                                        
+                                    </a>
+                                </li>
+                                <li>
                                     {{ form_start(form) }}
                                         {{ form_row(form.NbrPlace, {'label': 'Nombre de palace'}) }}
-                                         {{ form_row(form.reservez, {'label': 'reservez'~ pack.id }) }}                    
+                                         {{ form_row(form.reservez, {'label': 'reservez'~pack.id }) }}                    
                                         {{ form_end(form) }}
                                 </li>
                             </ul>
