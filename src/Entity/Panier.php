@@ -31,7 +31,7 @@ class Panier
     /**
      * @ORM\Column(type="integer")
      */
-    private $NbrPlace;
+    private $NbrPlace=0;
 
     /**
      * @ORM\Column(type="boolean")

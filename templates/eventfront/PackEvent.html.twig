@@ -39,16 +39,10 @@
                             1<div class="desc">Pack Evenement</div>
                         </span><span class="ligne ">
                         </span><span class="etape">
-                            2<div class="desc">Modules</div>
+                            2<div class="desc">Facturation</div>
                         </span><span class="ligne ">
                         </span><span class="etape">
-                            3<div class="desc">Electrical</div>
-                        </span><span class="ligne">
-                        </span><span class="etape">
-                            4<div class="desc">Decoration</div>
-                        </span><span class="ligne">
-                        </span><span class="etape">
-                            5<div class="desc">Complete & Save</div>
+                            3<div class="desc">Payement</div>
                         </span>
                     </div>
            <br><br>
@@ -80,23 +74,37 @@
                                     Nombre de Place dispo : {{ evenement.nbrPlace }}
                                 </li>
                                 <li>
-                                    {{ pack.id }}
+                                    
                                     {{ evenement.category.titre }}
                                 </li>
                                 <li>
-                                    <a href="#" readmore_btn class="js-like-link">
+                                    <div id="aaa" class="js-contentP">
+                                    <a href="{{ path('suppEP',{'id' : pack.id }) }}"  class="readmore_btn js-suppPanier">
+                                 
+                                        <i class="fas fa-angle-double-left" style="color:red"></i>
+                                       
+                                            <span style="visibility:hidden" class="js-nbrP">{{ pack.paniers| length }}</span>
+                                        
+                                            
                                         
                                     </a>
+
+                                       
+                                    <span class="js-nbrPtest" id="fff">{{ pack.paniers| length }}</span>
+                                    <a href="{{ path('ajouterNbr',{'id' : pack.id }) }}"  class="readmore_btn js-addPanier">
+                                        
+                                            
+                                        <span class="js-nbrP" style="visibility:hidden">{{ pack.paniers| length }}</span>
+                                        <i class="fas fa-angle-double-right" style="color:red"></i>
+                                        
+                                    
+                                    </a>
+                                    </div>
                                 </li>
-                                <li>
-                                    {{ form_start(form) }}
-                                        {{ form_row(form.NbrPlace, {'label': 'Nombre de palace'}) }}
-                                         {{ form_row(form.reservez, {'label': 'reservez'~pack.id }) }}                    
-                                        {{ form_end(form) }}
-                                </li>
+                                
                             </ul>
                         </div>
-                        
+                    
                     </div>
                 </div>
                 
@@ -104,6 +112,7 @@
             
             
         </div>
+        <a href="{{ path("detailFacture", {'id': evenement.id}) }}" class="btn btn-rounded btn-block btn-primary">Valider Votre Panier</a>
     </div>
 </section>
 

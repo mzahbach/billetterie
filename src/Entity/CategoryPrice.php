@@ -139,5 +139,13 @@ class CategoryPrice
         return $this;
     }
 
+
+    public function isLikedByUser(User $user):bool{
+        foreach ($this->$paniers as $panier) {
+            if ( $panier->getUser() === $user) return true;
+        }
+        return false;
+    }
+
     
 }

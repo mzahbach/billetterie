@@ -248,6 +248,52 @@
     })
 
 </script>
+<script>
+    function onClikBtnSuppP(event){
+        event.preventDefault();
+
+        const url = this.href;
+        var index = 0;
+        const spanCount = this.querySelector('span.js-nbrP');
+        const parent = spanCount.parentNode;
+        const parentOfParent = parent.parentNode;
+        const spanCounttest = parentOfParent.querySelector('span.js-nbrPtest');
+        
+         
+        axios.get(url).then(function (response) {
+            console.log(response);
+            spanCounttest.textContent = response.data.nbrPack;
+        })
+    }
+
+    document.querySelectorAll('a.js-suppPanier').forEach(function(link){
+        link.addEventListener('click', onClikBtnSuppP)
+    })
+
+    function onClikBtnAddP(event){
+        event.preventDefault();
+
+        const url = this.href;
+       
+        const spanCount = this.querySelector('span.js-nbrP');
+        const parent =spanCount.parentNode;
+        const parentOfParent= parent.parentNode;
+        const spanCounttest = parentOfParent.querySelector('span.js-nbrPtest');
+        // const result = container.querySelector('.js-nbrPtest');
+
+        axios.get(url).then(function(response){
+            console.log(spanCounttest);
+           spanCounttest.textContent = response.data.nbrPack;
+        })
+    } 
+
+    document.querySelectorAll('a.js-addPanier').forEach(function(link){
+        link.addEventListener('click',onClikBtnAddP)
+    })
+
+
+
+</script>
 
 
     {% endblock %}

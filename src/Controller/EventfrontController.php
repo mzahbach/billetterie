@@ -26,7 +26,7 @@ use App\Repository\CategoryPriceRepository;
 use App\Entity\CategoryPrice;
 use App\Repository\PostLikeRepository;
 use App\Entity\PostLike;
-
+use App\Repository\PanierRepository;
 
 /**
  * @Route("/Evento")
@@ -244,6 +244,101 @@ class EventfrontController extends AbstractController
             "pack" => $catsPs
             
         ]);
+    }
+    /**
+     * ajouter nombre de pack a achetee 
+     *
+     * @Route("/add/{id}/panier" ,name="ajouterNbr")
+     * 
+     * @param CategoryPrice $catP
+     * @param ObjectManager $manager
+     * @param CategoryPriceRepository $catPRepo
+     * @return Response
+     */
+    public function NbrPanier($id,CategoryPrice $catP, ObjectManager $manager , CategoryPriceRepository $catPRepo, PanierRepository $PRepo):Response{
+        
+        $pack=$catPRepo->find($id);
+        dump($pack);
+        $panier = new Panier();
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json([
+                'code'=>403,
+                'message'=> 'il faut étre connectee'
+            ],403);
+        }else{
+            $panier->setPack($pack);
+            $panier->setUsers($user);
+            $panier->setNbrPlace(1);
+            $panier->setActive(true);
+            $manager->persist($panier);
+
+            $manager->flush();
+
+            return $this->json(['message' => 'ca marche ',
+                'nbrPack' => $PRepo->count([
+                    'pack' => $pack,
+                    'Active' => true
+                ])
+        ], 200);
+        }
+        
+        
+    }
+
+    /**
+     * FActuration et envoi a la base la facture ou faire une anulation
+     * 
+     * @Route("/detail/{id}", name="detailFacture")
+     *
+     * @param Evenement $evenement
+     * @param Request $request
+     * @return Response
+     */
+    public function DetailPanier( $id,Evenement $evenement, Request $request, CategoryPrice $cat,CategoryPriceRepository $catRepo,Panier $panier, PanierRepository $panierRepo):Response{
+        return $this->render( 'eventfront/DetailPanier.html.twig');
+    }
+
+    /**
+     * Undocumented function supprimer un event du panier
+     *
+     * @Route("/supp/{id}/panier", name="suppEP")
+     * 
+     * @param [type] $id
+     * @param CategoryPrice $catP
+     * @param ObjectManager $manager
+     * @param CategoryPriceRepository $catPRepo
+     * @return Response
+     */
+    public function SuppNbrPanier($id, CategoryPrice $catP, ObjectManager $manager, CategoryPriceRepository $catPRepo, PanierRepository $PRepo): Response
+    {
+
+        $pack = $catPRepo->find($id);
+        dump($pack);
+        $panier = new Panier();
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json([
+                'code' => 403,
+                'message' => 'il faut étre connectee'
+            ], 403);
+        } else {
+            $panier = $PRepo->findOneBy([
+                'pack' => $pack,
+                'users' => $user,
+                ]);
+
+               $manager->remove($panier);
+               $manager->flush();
+
+            return $this->json([
+                'code' => '200',
+                'message' => 'event supprimer du panier ',
+                'nbrPack' => $PRepo->count(['pack'=>$pack ,
+                                            'Active'=> true                           
+                ]),
+            ], 200);
+        }
     }
 
 
