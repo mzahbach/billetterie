@@ -1,0 +1,67 @@
+{% extends 'baseF.html.twig' %}
+
+{% block body %}
+<!--page title section-->
+<section class="inner_cover parallax-window" data-parallax="scroll">
+    <div class="overlay_dark" style="background: url('/assets/img/bg/bg-img.png');"></div>
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-12">
+                <div class="inner_cover_content">
+                    <h3>
+                        Events
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="breadcrumbs">
+            <ul>
+                <li><a href="#">Evenement</a> | </li>
+                <li><span>Pack de l'Events</span></li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--page title section end-->
+
+<!--Price section-->
+<section class="pt100 pb100">
+    <div class="container">
+
+        <div id="progression">
+            <span class="etape fait">
+                1<div class="desc">Pack Evenement</div>
+            </span><span class="ligne ">
+            </span><span class="etape fait">
+                2<div class="desc">Facturation</div>
+            </span><span class="ligne ">
+            </span><span class="etape fait">
+                3<div class="desc">Payement</div>
+            </span>
+        </div>
+        <br><br>
+    </div>
+
+    <!--events section -->
+    
+        <form  action="{{ path('success',{'id': facture.id}) }}" method="post" id="payment-form">
+            <div class="form-row">
+                <label for="card-element">
+                    Credit or debit card
+                </label>
+                <div id="card-element">
+                    <!-- A Stripe Element will be inserted here. -->
+                </div>
+        
+                <!-- Used to display form errors. -->
+                <div id="card-errors" role="alert"></div>
+            </div>
+        
+            <button>Submit Payment</button>
+        </form>
+    
+
+</section>
+
+{% endblock %}

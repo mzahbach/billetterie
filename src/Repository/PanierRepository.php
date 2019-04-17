@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Panier;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use App\Entity\CategoryPrice;
 
 /**
  * @method Panier|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,6 +19,18 @@ class PanierRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Panier::class);
     }
+
+    public function findByCatPrice(CategoryPrice $catP){
+        $id_catP = $catP->getId();
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.pack_id = :val')
+            ->setParameter('val', $id_catP)
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
 
     // /**
     //  * @return Panier[] Returns an array of Panier objects

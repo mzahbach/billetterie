@@ -1,6 +1,95 @@
 {% extends 'baseF.html.twig' %}
 
 {% block body %}
-<h1>bechir facturation</h1>
+<!--page title section-->
+<section class="inner_cover parallax-window" data-parallax="scroll">
+    <div class="overlay_dark" style="background: url('/assets/img/bg/bg-img.png');"></div>
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-12">
+                <div class="inner_cover_content">
+                    <h3>
+                        Events
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="breadcrumbs">
+            <ul>
+                <li><a href="#">Evenement</a> | </li>
+                <li><span>Pack de l'Events</span></li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--page title section end-->
+
+<!--Price section-->
+<section class="pt100 pb100">
+    <div class="container">
+        
+        <div id="progression">
+            <span class="etape fait">
+                1<div class="desc">Pack Evenement</div>
+            </span><span class="ligne ">
+            </span><span class="etape fait">
+                2<div class="desc">Facturation</div>
+            </span><span class="ligne ">
+            </span><span class="etape">
+                3<div class="desc">Payement</div>
+            </span>
+        </div>
+        <br><br>
+    </div>
+
+<!--events section -->
+
+    <div class="container">
+
+        <div class="event_box">
+            <img height="590" width="1161" src="/uploads/{{ evenement.image }}" alt="event">
+            <div class="event_info">
+                <div class="event_title">
+                    {{ evenement.titre }}
+                </div>
+                <div class="speakers">
+                    <strong>{{ evenement.category.titre }}</strong>
+                    <span>Prix : {{ evenement.prix }} {{ evenement.devises.titre }} | emplacement :
+                        {{ evenement.lieux }}| place dispo {{ evenement.nbrPlace }}</span>
+                </div>
+                <div class="event_date">
+                    Commence le : {{evenement.debutAt ? evenement.debutAt|date('Y-m-d') : '' }} a
+                    {{evenement.debutAt ? evenement.debutAt|date('H:i ') : '' }} <br>
+                    se termine le : {{ evenement.finAt ? evenement.finAt|date('Y-m-d') : '' }} a
+                    {{ evenement.finAt ? evenement.finAt|date('H:i') : '' }}
+
+                </div>
+            </div>
+            <div class="event_word">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-12">
+
+                        {{ evenement.description }}
+
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <p>Vous avez resrvez {{ nbrPlace }} des billets pour l'evenement {{evenement.titre}} qui commence le :{{evenement.debutAt ? evenement.debutAt|date('Y-m-d') : '' }} a
+                        {{evenement.debutAt ? evenement.debutAt|date('H:i ') : '' }}
+                        {% for fact in facturesUser %}
+                            vous avez :{{ fact.nbrPack }} places pour le pack de {{ fact.titre }} pour le prix de : {{ fact.prixPack }}{{ evenement.devises.titre }}
+                        {% endfor %}
+                            avec un total de : {{ prixTotal }}{{ evenement.devises.titre }}.
+                    </p>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="{{ path("pstripe", {'id': facture.id}) }}" class="btn btn-rounded btn-block btn-primary">Payement visa ou Master Carte</a>
+    </div>
+</section>
+
+
 
 {% endblock %}
