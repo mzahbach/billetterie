@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\CategoryRepository;
+use Doctrine\Common\Persistence\ObjectManager;
+use App\Repository\CategoryPriceRepository;
+use Proxies\__CG__\App\Entity\CategoryPrice;
 
 /**
  * @Route("/evenement")
@@ -32,7 +35,7 @@ class EvenementController extends AbstractController
     /**
      * @Route("/new", name="evenement_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ObjectManager $manager,CategoryPriceRepository $packRepo,EvenementRepository $eventRepo): Response
     {
         $evenement = new Evenement();
         $form = $this->createForm(EvenementType::class, $evenement);
@@ -46,7 +49,16 @@ class EvenementController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($evenement);
             $entityManager->flush();
+            $event= $eventRepo->findOneBy([ 'titre' => $evenement->getTitre(),
+                                            'debutAt'=> $evenement->getDebutAt(),
+            ]);
 
+            $pack = new CategoryPrice();
+            $pack->setTitre('tarif Standar');
+            $pack->setDiscount(0);
+            $pack->setEvent($event);
+            $manager->persist($pack);
+            $manager->flush();
             return $this->redirectToRoute('evenement_index');
         }
 

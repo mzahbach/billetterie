@@ -49,10 +49,8 @@
 
         <div class="row justify-content-center">
             
-            {% for pack in evenement.categoryPrices %}
             
-           
-            {% set form =  pack.form.createView %}
+            {% for pack in evenement.categoryPrices %}
             
                                    
             <div class="col-md-4 col-12">
@@ -80,8 +78,8 @@
                                 <li>
                                     <div id="aaa" class="js-contentP">
                                     <a href="{{ path('suppEP',{'id' : pack.id }) }}"  class="readmore_btn js-suppPanier">
-                                 
-                                        <i class="fas fa-angle-double-left" style="color:red"></i>
+                                        
+                                        <i class="fas fa-user-minus" style="color:red"></i>
                                        
                                             <span style="visibility:hidden" class="js-nbrP">{{ pack.paniers| length }}</span>
                                         
@@ -95,7 +93,7 @@
                                         
                                             
                                         <span class="js-nbrP" style="visibility:hidden">{{ pack.paniers| length }}</span>
-                                        <i class="fas fa-angle-double-right" style="color:red"></i>
+                                        <i class="fas fa-user-plus" style="color:red"></i>
                                         
                                     
                                     </a>
@@ -109,8 +107,7 @@
                 </div>
                 
             {% endfor %}
-            
-            
+
         </div>
         <a href="{{ path("detailFacture", {'id': evenement.id}) }}" class="btn btn-rounded btn-block btn-primary">Valider Votre Panier</a>
     </div>
