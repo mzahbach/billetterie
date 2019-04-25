@@ -31,28 +31,32 @@
         <div class="row justify-content-center">
             <!--blog section start -->
             
-            <div class="col-12 col-md-8">
-            {% for event in eventsdate %}
-                <div class="blog_card">
-                    <img width="754" height="462" src="/uploads/{{ event.image }}" alt="blog News ">
-                    <div class="blog_box_data">
-                        <span class="blog_date">
+                <div class="col-12 col-md-8" id="result">
+                    {% for event in eventsdate %}
+                    <div class="blog_card">
+                        <img width="754" height="462" src="/uploads/{{ event.image }}" alt="blog News ">
+                        <div class="blog_box_data">
+                            <span class="blog_date">
                                 {{ event.debutAt ? event.debutAt|date('F j, Y,') : '' }}
-                           
-                        </span>
-                        <div class="blog_meta">
-                            <span><a href="#"> nombre de place :{{ event.nbrPlace }}</a></span>  | <span><a href="#">  {{ event.category.titre }}   </a></span>|  <span><a href="#">{{ event.prix }} {{ event.devises.titre }}</a></span>
+                
+                            </span>
+                            <div class="blog_meta">
+                                <span><a href="#"> nombre de place :{{ event.nbrPlace }}</a></span> | <span><a href="#">
+                                        {{ event.category.titre }} </a></span>| <span><a href="#">{{ event.prix }}
+                                        {{ event.devises.titre }}</a></span>
+                            </div>
+                            <h5>
+                                {{ event.titre }}
+                            </h5>
+                            <p class="blog_word">
+                                {{ event.description }}
+                            </p>
+                            <a href="{{ path('detailevent', {'id': event.id}) }}" class="readmore_btn">Read More</a>
                         </div>
-                        <h5>
-                            {{ event.titre }}
-                        </h5>
-                        <p class="blog_word">
-                            {{ event.description }}
-                        </p>
-                        <a href="{{ path('detailevent', {'id': event.id}) }}" class="readmore_btn">Read More</a>
                     </div>
-                </div>
-            {% endfor %}
+                    {% endfor %}
+           
+            
                 
 
 
@@ -66,7 +70,7 @@
                 <div class="sidebar">
                     <div class="widget widget_search">
                         <div class="search-form">
-                            <input type="text" class="search-field" placeholder="Search">
+                            <input type="text" id="search_text" name="search_text" class="search-field" placeholder="Search">
                         </div>
                     </div>
                     <div class="widget widget_categories">
@@ -84,7 +88,7 @@
                             {% if '-' in app.request.requestUri %}
                             
                         <h4 class="widget-title">
-                            Categories {{ app.request.requestUri }}
+                            Categories 
                         </h4>                    
                         
                         {% for categorie in categorys %}

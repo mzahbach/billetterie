@@ -18,6 +18,7 @@
     /* ==============================================
 /*  PRE LOADING
   =============================================== */
+
 'use strict';
 $(window).load(function() {
     $('.loader').delay(500).fadeOut('slow');
@@ -53,14 +54,29 @@ $(document).ready(function() {
      COUNTER JS
      ----------------------------------------------------------- */
 
+
+     function MaxEventLike(){
+         const url ="http://127.0.0.1:8000/Evento/test/"; 
+         var DateMaxEvent = "";
+         axios.get(url).then(function (response) {
+             console.log(response);
+             DateMaxEvent = response.data.dateDebut;
+         })
+          
+         return DateMaxEvent;
+     }
+
+
+
     $('.counter').counterUp({
         delay: 5,
         time: 3000
     });
-
-    $(".countdown")
     
-        .countdown("2019/03/10", function(event) {
+    
+    $(".countdown")
+        .countdown("2019/04/29", function(event) {
+           
             $(this).html(
                 event.strftime('<div>%w <span>Weeks</span></div>  <div>%D <span>Days</span></div>  <div>%H<span>Hours</span></div> <div>%M<span>Minutes</span></div> <div>%S<span>Seconds</span></div>')
             );

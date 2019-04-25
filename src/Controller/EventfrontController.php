@@ -79,30 +79,32 @@ class EventfrontController extends AbstractController
      */
     public function liste_evenet(EvenementRepository $evenementRepository ,Request $request): Response
     {       
-        $search = new PropertySearch();
+        /*
         $form = $this->createForm(PropertySearchType::class, $search);
-        $form -> handleRequest($request);
+        $form -> handleRequest($request);*/
         $time = new \DateTime();
         $EventMs=null;
         
-        dump(isset($search->getTitreSearch));
+       /* dump(isset($search->getTitreSearch));
          $eventsResult = $evenementRepository->findBytitre($search);
-            if (  isset($search->getTitreSearch) ) {
+            if (  isset($search->getTitreSearch) ) {*/
 
                 $events = $evenementRepository->findAll();  
                 foreach ($events as $event) {
                     if($event->getDebutAt()->format('m-Y')=== $time->format('m-Y') )
                     {
                         $EventMs[]=$event;
+                        
                        
                     }
                 }
+                
                
                 return $this->render('eventfront/event.html.twig', [
                    'evenements' => $EventMs,
-                   'form' => $form->createView()
+                  
                 ]); 
-                }else{
+            /*else{
                    
                 return $this->render('eventfront/event.html.twig', [
                     'evenements' => $eventsResult,
@@ -110,7 +112,7 @@ class EventfrontController extends AbstractController
                     
                 ]);
                 
-            }
+            }*/
         
 
         
@@ -299,8 +301,19 @@ class EventfrontController extends AbstractController
      * @param \Swift_Mailer $mailer
      * @return void
      */
-    public function PaymentEffect($id, FactureRepository $factRepo, \Swift_Mailer $mailer):Response
+    public function PaymentEffect($id,PanierRepository $panierRepo,ObjectManager $manager, FactureRepository $factRepo, \Swift_Mailer $mailer):Response
     {
+        
+        $user = $this->getUser();
+         
+        $panier = $panierRepo->findOneBy([
+            'Active' => false,
+            'users' => $user
+        ]);
+        dump($panier);
+        $manager->remove($panier);
+        $manager->flush();
+
         $facture=$factRepo->findOneBy(['id'=> $id]);
         $user=$this->getUser();
         //code Mail
@@ -337,8 +350,9 @@ class EventfrontController extends AbstractController
         //recupération de l evenement
         $event = $eventRepo->find($id);
         $nbr=0;
-        //recup les Packs de l evnement 
+        //recup les Packs de l evnement houni el mochkla
         $CatPrices = $catPRepo->findbyEvent($event);
+        
         //recup liste panier
         $paniers = $panierRepo->findAll();
         //recup user qui a fait l'achat
@@ -386,7 +400,24 @@ class EventfrontController extends AbstractController
             if ($p->getNbrPlace()==0) {
                 $manager->remove($p);
                 $manager->flush();
-            }else {
+            }if ($p->getUsers()== $user and $p->getPack()== $packP and $p->getActive()==false) {
+                $nbr = $p->getNbrPlace() + $nbr;
+                $packC = $p->getPack();
+                $discount = $packC->getDiscount();
+                $prixDiscount = $event->getPrix() * $discount;
+                $prixPack = ($event->getPrix() - $prixDiscount);
+                $prixPack = $prixPack * $p->getNbrPlace();
+                $facturesUser[] = ([
+                    'titre' => $packC->getTitre(),
+                    'nbrPack' => $p->getNbrPlace(),
+                    'prixPack' => $prixPack,
+                    'user' => $user
+                ]);
+                $prixTotal = $prixTotal + $prixPack;
+               
+            } 
+
+            /*else {
                $nbr=$p->getNbrPlace()+$nbr;
                $packC=$p->getPack();
                $discount=$packC->getDiscount();
@@ -399,7 +430,7 @@ class EventfrontController extends AbstractController
                                  'user'=>$user
                ]);
                $prixTotal=$prixTotal+$prixPack;
-            }
+            }*/
            
         }
         
@@ -409,6 +440,7 @@ class EventfrontController extends AbstractController
         $factureC->setUserName($user->getUsername());
         $factureC->setPrixTotal($prixTotal);
         $factureC->setTransaction(false);
+        
         $descriptioin='+';
         foreach ($facturesUser as $fact) {
             $descriptioin=$descriptioin.' le nombre de billets reservez est de '.$fact['nbrPack'].' du Pack : '.$fact[ 'titre'].' + ';
@@ -448,6 +480,7 @@ class EventfrontController extends AbstractController
      */
     public function Pstripe($id, Request $request,FactureRepository $factRepo ,ObjectManager $manager){
         $facture = $factRepo->findOneBy(['id'=>$id]);
+        
         $test = $facture->getPrixTotal()*100;
         $devise = "ttd";
         $description = $facture->getTitre();
@@ -599,6 +632,42 @@ class EventfrontController extends AbstractController
         'message'=>'like ajouter ',
         'likes'=>$likeRepo->count(['post' => $event])
     ],200);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @Route("/test/", name="eventMaax")
+     * 
+     * @param EvenementRepository $eventRepo
+     * @param PostLikeRepository $PLREpo
+     * @return Response
+     */
+    public function countDown(EvenementRepository $eventRepo,PostLikeRepository $PLREpo ):Response{
+        $time = new \DateTime();
+        $EventMs = null;
+
+        $eventLike = new Evenement();
+
+        $events = $eventRepo->findAll();
+        foreach ($events as $event) {
+            if ($event->getDebutAt()->format('m-Y') === $time->format('m-Y')) {
+                    $EventMs[] = $event;
+                }
+        }
+        
+        foreach ($EventMs as $event) {
+            if( count($event->getLikes()) > count($eventLike->getLikes()) ) {
+                $eventLike = $event ;
+            }
+        }
+        dump($eventLike);
+
+        return $this->json([
+            'code' => 200,
+            'titreEvent' => $eventLike->getTitre(),
+            'dateDebut' => $eventLike->getDebutAt()->format( "Y/m/d")
+        ], 200);
     }
 
 

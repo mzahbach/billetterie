@@ -16,8 +16,8 @@
                                 <p class="cover-date">
                                      {{ Sevent1.debutAt ? Sevent1.debutAt|date('F j, Y,') : '' }}  | {{ Sevent1.lieux }}
                                 </p>
-                                <a href="#" class=" btn btn-primary btn-rounded" >
-                                    Buy Tickets Now
+                                <a href="{{ path('detailevent', {'id': Sevent1.id}) }}" class=" btn btn-primary btn-rounded" >
+                                    Voir detail
                                 </a>
                             </div>
                         </div>
@@ -36,8 +36,8 @@
                                 <p class="cover-date">
                                     {{ Sevent2.debutAt ? Sevent2.debutAt|date('F j, Y,') : '' }}  | {{ Sevent2.lieux }}
                                 </p>
-                                <a href="#" class=" btn btn-primary btn-rounded" >
-                                    Buy Tickets Now
+                                <a href="{{ path('detailevent', {'id': Sevent2.id}) }}" class=" btn btn-primary btn-rounded" >
+                                    Voir detail
                                 </a>
                             </div>
                         </div>
@@ -56,8 +56,8 @@
                                 <p class="cover-date">
                                         {{ Sevent3.debutAt ? Sevent3.debutAt|date('F j, Y,') : '' }}  | {{ Sevent3.lieux }}
                                 </p>
-                                <a href="#" class=" btn btn-primary btn-rounded" >
-                                    Buy Tickets Now
+                                <a href="{{ path('detailevent', {'id': Sevent3.id}) }}" class=" btn btn-primary btn-rounded" >
+                                    Voir detail
                                 </a>
                             </div>
                         </div>
@@ -75,7 +75,7 @@
     </section>
     <!--cover section slider end -->
     
-    <!--event info -->
+    <!--event info le plus attendue bi nmb de jaime -->
     <section class="pt100 pb100">
         <div class="container">
             <div class="row justify-content-center">
@@ -141,7 +141,7 @@
     <!--event info end -->
     
     
-    <!--event countdown -->
+    <!--event countdown ta3 l event le plu attendu bi nbr max de jaime asset/js/main.js=>.countdown  -->
     <section class="bg-img pt70 pb70" style="background-image: url('/assets/img/bg/bg-img.png');">
         <div class="overlay_dark"></div>
         <div class="container">
@@ -165,25 +165,14 @@
         <div class="container">
             <div class="section_title">
                 <h3 class="title">
-                    About the event
+                    <h1 class="page-header">calendrier des <small>événements</small>
                 </h3>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-6">
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing eli. Integer iaculis in lacus a sollicitudin. Ut hendrerit hendrerit nisl a accumsan. Pellentesque convallis consectetur tortor id placerat. Curabitur a pulvinar nunc. Maecenas laoreet finibus lectus, at volutpat ligula euismod.
-                    </p>
-                </div>
+            
                 <div class="col-12 col-md-12">
                   
                   <div class="container" id="calemp">
-                        <div class="row">
-                          <div class="col-lg-12">
-                               
-                            <h1 class="page-header">evenement.<small>calendrier</small>
-                            </h1>
-                          </div>
-                        </div>
+                        
                         <div class="row">
                           <div class="col-md-12">
                             <div class="calendar hidden-print">
@@ -226,72 +215,18 @@
                 </div>
             </div>
     
-            <!--event features-->
-            <div class="row justify-content-center mt30">
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="icon_box_one">
-                        <i class="lnr lnr-mic"></i>
-                        <div class="content">
-                            <h4>9 Speakers</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rhoncus massa nec graviante.
-                            </p>
-                            <a href="#">read more</a>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="icon_box_one">
-                        <i class="lnr lnr-rocket"></i>
-                        <div class="content">
-                            <h4>8 hrs Marathon</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rhoncus massa nec graviante.
-                            </p>
-                            <a href="#">read more</a>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="icon_box_one">
-                        <i class="lnr lnr-bullhorn"></i>
-                        <div class="content">
-                            <h4>Live Broadcast</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rhoncus massa nec graviante.
-                            </p>
-                            <a href="#">read more</a>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="icon_box_one">
-                        <i class="lnr lnr-clock"></i>
-                        <div class="content">
-                            <h4>Early Bird</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rhoncus massa nec graviante.
-                            </p>
-                            <a href="#">read more</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--event features end-->
+            
         </div>
     </section>
     <!--about the event end -->
     
     
-    <!--speaker section-->
+    <!--speaker section evenement -->
     <section class="pb100">
         <div class="container">
             <div class="section_title mb50">
                 <h3 class="title">
-                   our speakers
+                   nos événements
                 </h3>
             </div>
         </div>
@@ -389,125 +324,7 @@
     </section>
     <!--speaker section end -->
     
-    <!--Price section-->
-    <section class="pb100">
-        <div class="container">
-            <div class="section_title mb50">
-                <h3 class="title">
-                    Pricing table
-                </h3>
-            </div>
-    
-            <div class="row justify-content-center">
-                <div class="col-md-4 col-12">
-                    <div class="price_box active">
-                        <div class="price_highlight">
-                            recommended
-                        </div>
-                       <div class="price_header">
-                           <h4>
-                               Early Bird
-                           </h4>
-                           <h6>
-                               For the fast ones
-                           </h6>
-                       </div>
-                        <div class="price_tag">
-                            65 <sup>$</sup>
-                        </div>
-                        <div class="price_features">
-                            <ul>
-                                <li>
-                                    Early Entrance
-                                </li>
-                                <li>
-                                    Front seat
-                                </li>
-                                <li>
-                                    Complementary Drinks
-                                </li>
-                                <li>
-                                    Promo Gift
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="price_footer">
-                            <a href="#" class="btn btn-primary btn-rounded">Purchase</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-12">
-                    <div class="price_box">
-                        <div class="price_header">
-                            <h4>
-                                Start up
-                            </h4>
-                            <h6>
-                                For the begginers
-                            </h6>
-                        </div>
-                        <div class="price_tag">
-                            85 <sup>$</sup>
-                        </div>
-                        <div class="price_features">
-                            <ul>
-                                <li>
-                                    Early Entrance
-                                </li>
-                                <li>
-                                    Front seat
-                                </li>
-                                <li>
-                                    Complementary Drinks
-                                </li>
-                                <li>
-                                    Promo Gift
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="price_footer">
-                            <a href="#" class="btn btn-primary btn-rounded">Purchase</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-12">
-                    <div class="price_box">
-                        <div class="price_header">
-                            <h4>
-                                Corporate
-                            </h4>
-                            <h6>
-                                For the business
-                            </h6>
-                        </div>
-                        <div class="price_tag">
-                            95 <sup>$</sup>
-                        </div>
-                        <div class="price_features">
-                            <ul>
-                                <li>
-                                    Early Entrance
-                                </li>
-                                <li>
-                                    Front seat
-                                </li>
-                                <li>
-                                    Complementary Drinks
-                                </li>
-                                <li>
-                                    Promo Gift
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="price_footer">
-                            <a href="#" class="btn btn-primary btn-rounded">Purchase</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--price section end -->
+   
     
     <!--event calender-->
     <section class="pb100">
