@@ -4,20 +4,35 @@
  * Author: colorlib
  * Copyright (C) 2018 colorlib
  */
- /* ------------------------------------- */
+/* ------------------------------------- */
 /*  TABLE OF CONTENTS
- /* ------------------------------------- */
-/*   PRE LOADING                          */
+/* ------------------------------------- */
+/*   PRE LOADING                         */
 /*   WOW                                 */
-/*   sliders                      */
+/*   sliders                             */
 /*    MAPS                               */
-/*   COUNTER JS              */
+/*   COUNTER JS                          */
 
 
-
-    /* ==============================================
+/* ==============================================
 /*  PRE LOADING
   =============================================== */
+
+/*function MaxEventLike() {
+    const url = "http://127.0.0.1:8000/Evento/test/";
+    axios.get(url).then(function (response) {
+       
+        return response.data.dateDebut;
+        
+    }) 
+    console.log(DateMaxEvent);
+   
+     return DateMaxEvent;
+     axios.get("http://127.0.0.1:8000/Evento/test/").then(function (response){ return response.data.dateDebut;})
+     
+}
+*/
+
 
 'use strict';
 $(window).load(function() {
@@ -25,8 +40,10 @@ $(window).load(function() {
 });
 
 
-$(document).ready(function() {
 
+
+$(document).ready(function() {
+    
     'use strict';
     /* ==============================================
      /*   wow
@@ -39,6 +56,7 @@ $(document).ready(function() {
         }
     );
     wow.init();
+   
     /* ==============================================
         STICKY HEADER
         =============================================== */
@@ -52,19 +70,11 @@ $(document).ready(function() {
     });
     /* --------------------------------------------------------
      COUNTER JS
-     ----------------------------------------------------------- */
+     ---------------------------------------------------------- */
 
 
-     function MaxEventLike(){
-         const url ="http://127.0.0.1:8000/Evento/test/"; 
-         var DateMaxEvent = "";
-         axios.get(url).then(function (response) {
-             console.log(response);
-             DateMaxEvent = response.data.dateDebut;
-         })
-          
-         return DateMaxEvent;
-     }
+     
+
 
 
 
@@ -75,8 +85,8 @@ $(document).ready(function() {
     
     
     $(".countdown")
-        .countdown("2019/04/29", function(event) {
-           
+        .countdown('2019/05/30', function(event) {
+
             $(this).html(
                 event.strftime('<div>%w <span>Weeks</span></div>  <div>%D <span>Days</span></div>  <div>%H<span>Hours</span></div> <div>%M<span>Minutes</span></div> <div>%S<span>Seconds</span></div>')
             );

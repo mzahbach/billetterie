@@ -140,6 +140,9 @@
             "./config/packages/prod/jms_serializer.yaml"
         ]
     },
+    "mgilet/notification-bundle": {
+        "version": "3.1"
+    },
     "monolog/monolog": {
         "version": "1.24.0"
     },

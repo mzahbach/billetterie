@@ -3,6 +3,7 @@
 {% block body %}
  <!--cover section slider -->
  <section id="home" class="home-cover">
+    
         <div class="cover_slider owl-carousel owl-theme">
             <div class="cover_item" style="background: url('/uploads/{{ Sevent1.image }}');">
                  <div class="slider_content">
@@ -76,8 +77,18 @@
     <!--cover section slider end -->
     
     <!--event info le plus attendue bi nmb de jaime -->
+    {% if eventlike != null %}
+        
+    
     <section class="pt100 pb100">
         <div class="container">
+            <div class="container">
+                <div class="section_title mb50">
+                    <h3 class="title">
+                        meilleure événement du mois : {{ eventlike.titre }} 
+                    </h3>
+                </div>
+            </div>
             <div class="row justify-content-center">
                 <div class="col-6 col-md-3  ">
                     <div class="icon_box_two">
@@ -87,7 +98,8 @@
                                 DATE
                             </h5>
                             <p>
-                                12-14 february 2018
+                                {{ eventlike.debutAt ? eventlike.debutAt|date('F j, Y') : '' }}
+                                
                             </p>
                         </div>
                     </div>
@@ -98,10 +110,10 @@
                         <i class="ion-ios-location-outline"></i>
                         <div class="content">
                             <h5 class="box_title">
-                                location
+                                Lieux
                             </h5>
                             <p>
-                                Los Angeles, CA.
+                                {{ eventlike.lieux }}
                             </p>
                         </div>
                     </div>
@@ -112,11 +124,11 @@
                         <i class="ion-ios-person-outline"></i>
                         <div class="content">
                             <h5 class="box_title">
-                                speakers
+                                palce dispo
                             </h5>
                             <p>
-                                Natalie James
-                                + guests
+                               Nomblre de Place
+                                | {{ eventlike.nbrPlace }}
                             </p>
                         </div>
                     </div>
@@ -127,10 +139,10 @@
                         <i class="ion-ios-pricetag-outline"></i>
                         <div class="content">
                             <h5 class="box_title">
-                                tikets
+                                billets
                             </h5>
                             <p>
-                                $65 early bird
+                                {{ eventlike.prix }}{{ eventlike.devises.titre }} | prix standar
                             </p>
                         </div>
                     </div>
@@ -139,7 +151,7 @@
         </div>
     </section>
     <!--event info end -->
-    
+    {% endif %}
     
     <!--event countdown ta3 l event le plu attendu bi nbr max de jaime asset/js/main.js=>.countdown  -->
     <section class="bg-img pt70 pb70" style="background-image: url('/assets/img/bg/bg-img.png');">

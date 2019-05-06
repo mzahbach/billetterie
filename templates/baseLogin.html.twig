@@ -79,6 +79,9 @@
                                     <a class="nav-link"  href="{{ path('fos_user_security_logout') }}"> {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
                                 </li>
                             {% endif %}
+                            <li class="nav-item">
+                                <a class="nav-link " href="{{ path("contact") }}">Contact</a>
+                            </li>
                             
                             <li class="search_btn">
                                 <a  href="{{ path('searchEvent', {'date':"null"},{'id':"null"} ) }}">
@@ -105,8 +108,8 @@
             
                     <div class="breadcrumbs">
                         <ul>
-                            <li><a href="#">Home</a>   |  </li>
-                            <li><span>Login</span></li>
+                            <li><a href="#">Evento</a>   |  </li>
+                            <li><span>Login </span></li>
                         </ul>
                     </div>
                 </div>

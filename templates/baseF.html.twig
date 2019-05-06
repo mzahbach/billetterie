@@ -9,8 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
    
     {% block stylesheets %}
-    
-    
     <!-- calander CSS -->
     <link rel="stylesheet" href="{{ asset('/style-personal.css') }}">
     <link rel="stylesheet" href="{{ asset('/barre.css') }}">
@@ -80,7 +78,9 @@
                                             <a class="nav-link " href="{{ path('fos_user_security_login') }}">Login</a>
                                     </li>
                                 {% endif %}
-
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="{{ path("contact") }}">Contact</a>
+                                    </li>
                                 
                             
                             <li class="search_btn">
@@ -248,7 +248,10 @@
         // Submit the form
         form.submit();
     }
+  
 </script>
+<!--map -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuahgsm_qfH1F3iywCKzZNMdgsCfnjuUA"></script>
     <!-- calander js -->
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
     <script src="{{ asset('/simplecalendar.js') }}"></script>

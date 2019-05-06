@@ -29,6 +29,8 @@ use App\Entity\PostLike;
 use App\Repository\PanierRepository;
 use App\Entity\Facture;
 use App\Repository\FactureRepository;
+use App\Entity\Notification;
+use App\Form\NotificationType;
 
 /**
  * @Route("/Evento")
@@ -43,13 +45,37 @@ class EventfrontController extends AbstractController
         $event = new Evenement();
         $n=0;
         $now= (new \DateTime());
+
         
-      //  dump($interval);
+          
+        $EventMs = null;
+
+        $eventLike = new Evenement();
+
+        $events = $evenementRepository->findAll();
+        foreach ($events as $event) {
+            if ($event->getDebutAt()->format('m-Y') === $now->format('m-Y')) {
+                    $EventMs[] = $event;
+                }
+        }
+        if ($EventMs!=null) {
+            foreach ($EventMs as $event) {
+                if (count($event->getLikes()) > count($eventLike->getLikes())) {
+                    $eventLike = $event;
+                }
+            }
+
+            dump($eventLike);
+        }else {
+            $eventLike=null;
+        }
         
+        
+
         $events = $evenementRepository->OrderByDate();
      
             $newEvnt = $evenementRepository->OrderByDate();
-            dump($newEvnt);
+            
 
                     $sEvent1=($events[0]);
                     $sEvent2=($events[1]);
@@ -67,6 +93,7 @@ class EventfrontController extends AbstractController
             'Sevent2' => $sEvent2,
             'Sevent3' => $sEvent3,
             'interval' => $interval,
+            'eventlike' => $eventLike
 
         ]); 
     }
@@ -668,6 +695,43 @@ class EventfrontController extends AbstractController
             'titreEvent' => $eventLike->getTitre(),
             'dateDebut' => $eventLike->getDebutAt()->format( "Y/m/d")
         ], 200);
+    }
+
+
+    /**
+     * @Route("/Contact" ,name="contact")
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function contact(Request $request, \Swift_Mailer $mailer):Response{
+        $notification = new Notification();
+        $form = $this->createForm(NotificationType::class, $notification);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($notification);
+            $entityManager->flush();
+
+            //code Mail
+            $message = (new \Swift_Message('Hello Email'))
+                ->setSubject($notification->getSubject(). ' de la part de : ' .$notification->getNom())
+                ->setFrom($notification->getEmail())
+                ->setTo('bechirmzah@gmail.com')
+                ->setBody('son Email est :' .$notification->getEmail(). 'son message est :' . $notification->getMessage());
+
+            # Send the message
+            $mailer->send($message);
+
+            return $this->redirectToRoute( 'liste_evenet');
+        }
+
+        return $this->render( 'eventfront/contact.html.twig', [
+            'notification' => $notification,
+            'formc' => $form->createView(),
+        ]);
+        
     }
 
 
