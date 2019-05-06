@@ -276,6 +276,37 @@
 <!-- Custom axios -->
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
+    $(document).ready(function () {
+
+        load_data();
+
+        function load_data(query) {
+            $.ajax({
+                url: "http://127.0.0.1:8000/Evento/fetch",
+                method: "POST",
+                data: { query: query },
+                success: function (data) {
+                    $('#result').html(data);
+                }
+            });
+        }
+        $('#search_text').keyup(function () {
+            var search = $(this).val();
+            if (search != '') {
+                load_data(search);
+                document.getElementById('test-js').style.visibility = 'hidden';
+                
+                
+            }
+            else {
+                load_data();
+                document.getElementById('test-js').style.visibility = 'visible';
+                
+            }
+        });
+    });
+</script>
+<script>
 
     function onClikBtnLike(event){
         event.preventDefault();

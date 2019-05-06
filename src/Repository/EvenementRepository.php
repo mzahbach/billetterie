@@ -54,11 +54,11 @@ class EvenementRepository extends ServiceEntityRepository
     /**
      * @return Evenement[] 
      */
-    public function findBytitre(PropertySearch $search)
+    public function findBytitre(string $search)
     {
         return $this->createQueryBuilder('e')
             ->where('e.titre LIKE :val OR e.debutAt LIKE :val OR e.finAt LIKE :val OR e.prix LIKE :val ')
-            ->setParameter('val', '%'.$search->getTitreSearch().'%')
+            ->setParameter('val', '%'.$search.'%')
             ->orderBy('e.debutAt','DESC')
             ->getQuery()
             ->getResult()

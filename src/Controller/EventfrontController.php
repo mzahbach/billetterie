@@ -145,6 +145,83 @@ class EventfrontController extends AbstractController
         
     }
 
+
+
+    /**
+     * @Route("/fetch",name="fetch")
+     *
+     * fonction recherche js
+     * 
+     * @param Request $req
+     * @param EvenementRepository $eventRepo
+     * @return Response
+     */
+    public function fetch(Request $req ,EvenementRepository $eventRepo) :Response{
+        $outputOfFetch=null;
+        $output = array();
+        $fetchEvents=null;
+       if ($req->get('query')!== null) {
+          $fetch=$req->get('query');
+           
+            $fetchEvents = $eventRepo->findBytitre($fetch);
+
+           /* foreach ( $fetchEvents as $event) {
+                $output[]=[
+                    'id'=>$event->getId(),
+                    'titre'=> $event->getTitre(), 
+                    'debutAt'=> $event->getDebutAt(),
+                    'image'=>$event->getImage(),
+                    'prix'=> $event->getPrix(),
+                    'description'=>$event->getDescription(),
+                    'category'=>$event->getCategory()->getTitre(),
+                    'devise'=>$event->getDevises()->getTitre(),
+                    'nbrPlace'=>$event->getNbrPlace()
+            ];
+            }*/
+            
+
+
+
+       }
+
+       if (  count($fetchEvents) > 0) {
+            foreach ( $fetchEvents as $event) {
+               $outputOfFetch .= '
+                <div class="blog_card">
+                        <img width="754" height="462"  src= "/uploads/'. strval($event->getImage()).'"alt="blog News ">
+                        <div class="blog_box_data">
+                            <span class="blog_date">'
+                                .$event->getDebutAt()->format( 'F j, Y ').
+                
+                            '</span>
+                            <div class="blog_meta">
+                                <span><a href="#"> nombre de place :'. strval($event->getNbrPlace()).'</a></span> | <span><a href="#">
+                                        '. strval($event->getCategory()->getTitre()).' </a></span>| <span><a href="#">'. strval($event->getPrix()).'
+                                        '. strval($event->getDevises()->getTitre()).'</a></span>
+                            </div>
+                            <h5>
+                                '.strval($event->getTitre()).'
+                            </h5>
+                            <p class="blog_word">
+                                '. strval($event->getDescription()). '
+                            </p>
+                            <a href="http://127.0.0.1:8000/Eventoevent/'. strval($event->getId()).'" class="readmore_btn">Read More</a>
+                        </div>
+                    </div>
+               ' ;
+            }           
+       }
+
+
+
+        $response = new Response(json_encode($outputOfFetch));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+
+
    /**
     * @Route("/search/{date}/{id}" , defaults={"date" = null},defaults={"id" = null}, name="searchEvent")
     *
