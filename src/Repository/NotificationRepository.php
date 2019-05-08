@@ -19,6 +19,20 @@ class NotificationRepository extends ServiceEntityRepository
         parent::__construct($registry, Notification::class);
     }
 
+    /**
+     * @return Notification[] Returns an array of Notification objects
+     */
+    public function findOrderByDESC()
+    {
+        return $this->createQueryBuilder('n')
+            ->orderBy('n.id', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
     // /**
     //  * @return Notification[] Returns an array of Notification objects
     //  */

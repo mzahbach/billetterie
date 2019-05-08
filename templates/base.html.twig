@@ -127,6 +127,15 @@
         <script src="{{ asset('js/easypiechart-data.js') }}"></script>
         <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
         <script src="{{ asset('js/custom.js') }}"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            const url="http://127.0.0.1:8000/contactAs";
+
+             axios.get(url).then(function (response) {
+                 console.log(document.querySelector("#ResultatCont"));
+                 document.querySelector("#ResultatCont").innerHTML=response.data;
+                })
+        </script>
 <script>
     window.onload = function () {
         var chart1 = document.getElementById("line-chart").getContext("2d");
