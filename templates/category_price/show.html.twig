@@ -16,8 +16,12 @@
                 <td>{{ category_price.titre }}</td>
             </tr>
             <tr>
-                <th>Discount</th>
+                <th>Remise</th>
                 <td>{{ category_price.discount }}</td>
+            </tr>
+            <tr>
+                <th>Evenement</th>
+                <td><img src="/uploads/{{ category_price.event.image }}"></td>
             </tr>
         </tbody>
     </table>

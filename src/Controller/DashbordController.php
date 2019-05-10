@@ -19,6 +19,7 @@ class DashbordController extends AbstractController
      */
     public function index(EvenementRepository $eventRepo,CategoryPriceRepository $catRepo , CommentRepository $commentRepo ,FactureRepository $factRepo)
     {
+        
         $nbrevent= count($eventRepo->findAll());
         $nbrFacture= count($factRepo->findAll());
         $users = $this->getDoctrine()

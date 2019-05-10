@@ -83,10 +83,15 @@ class EvenementController extends AbstractController
      */
     public function edit(Request $request, Evenement $evenement): Response
     {
+        
         $form = $this->createForm(EvenementType::class, $evenement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $evenement->getImage();
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move($this->getParameter('upload_directory'), $fileName);
+            $evenement->setImage($fileName);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('evenement_index', [
@@ -103,8 +108,18 @@ class EvenementController extends AbstractController
     /**
      * @Route("/{id}", name="evenement_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Evenement $evenement): Response
+    public function delete(Request $request, Evenement $evenement,CategoryPriceRepository $catPRepo): Response
     {
+        /*$catP= $catPRepo->find()
+
+        $evenement->getId();*/
+        $catps= $catPRepo->findBy([ 'event'=>$evenement]);
+        dump($catps);
+        foreach ($catps as $catp) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($catp);
+            $entityManager->flush();
+        }
         if ($this->isCsrfTokenValid('delete'.$evenement->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($evenement);

@@ -24,7 +24,8 @@
             <tr>
                 <th>Id</th>
                 <th>Titre</th>
-                <th>Discount</th>
+                <th>Remise</th>
+                <th>Evenement</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -34,6 +35,7 @@
                 <td>{{ category_price.id }}</td>
                 <td>{{ category_price.titre }}</td>
                 <td>{{ category_price.discount }}</td>
+                <td>{{ category_price.event.titre }}</td>
                 <td>
                     <a href="{{ path('category_price_show', {'id': category_price.id}) }}">show</a>
                     <a href="{{ path('category_price_edit', {'id': category_price.id}) }}">edit</a>

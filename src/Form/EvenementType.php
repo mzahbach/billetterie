@@ -26,7 +26,9 @@ class EvenementType extends AbstractType
             ])
             ->add('nbrPlace')
             ->add('image', FileType::class, array(
-                'label' => 'Upload images de l evenement'
+                'label' => 'Upload images de l evenement',
+                'required' => false,
+                'data_class' => null
             ))
             ->add('category', EntityType::class ,[
                 'class' => Category::class,
