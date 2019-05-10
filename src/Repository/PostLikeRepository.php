@@ -36,6 +36,17 @@ class PostLikeRepository extends ServiceEntityRepository
     }
     */
 
+    /**
+     * @return PostLike[] Returns an array of PostLike objects
+     */
+    public function findorderByd()
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy( 'p.user', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     /*
     public function findOneBySomeField($value): ?PostLike
     {

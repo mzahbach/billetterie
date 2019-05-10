@@ -11,16 +11,22 @@ use App\Repository\FactureRepository;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repository\NotificationRepository;
+use App\Repository\PostLikeRepository;
+use App\Entity\Facture;
 
 class DashbordController extends AbstractController
 {
     /**
      * @Route("/dashbord", name="dashbord")
      */
-    public function index(EvenementRepository $eventRepo,CategoryPriceRepository $catRepo , CommentRepository $commentRepo ,FactureRepository $factRepo)
+    public function index(EvenementRepository $eventRepo,PostLikeRepository $postLikeRepo,CategoryPriceRepository $catRepo , CommentRepository $commentRepo ,FactureRepository $factRepo)
     {
         $now = (new \DateTime());
-        
+        $user = new User();
+        $users[]= null;
+        $facture= new Facture();
+        $Afact= null;
+        //calcule de la pourcentage des evenemnt du mois 
         $nbrevent= count($eventRepo->findAll());
         foreach ( $eventRepo->findAll() as $event) {
             if ($event->getDebutAt()->format('m-Y') === $now->format('m-Y')) {
@@ -30,8 +36,37 @@ class DashbordController extends AbstractController
         $eventcent= count($EventMs)*100;
         $eventcent=$eventcent/$nbrevent;
         $eventcent=intval($eventcent);
-        dump($eventcent);
-        $nbrFacture= count($factRepo->findAll());
+        //fin pourcentage envenement
+        //les user actife bel jaime tawa nzid a3liha mba3ed bel les commentaire
+        $postLikes=$postLikeRepo->findorderByd();
+        
+        foreach ($postLikes as $like) {
+            if ($like->getUser()!= $user) {
+                $user= $like->getUser();
+                $users[]= $user ;
+            }
+        }
+        
+        $userCent=count($users)*100;
+        $userCent=$userCent/count($postLikes);
+        $userCent= intval($userCent);
+        //fin userActife
+        //pourcentage Event vendu
+        
+        $factures= $factRepo->findAll();
+        foreach ($factures as $fact) {
+            if ($fact->getTitre()!=$facture->getTitre()) {
+                $facture=$fact;
+                $Afact[]=$fact->getTitre();
+            }
+        }
+        $factrecent= count($Afact)*100;
+       
+        $nbrFacture= count($factures);
+        $factrecent = $factrecent/$nbrevent;
+        $factrecent= intval($factrecent);
+        
+
         $users = $this->getDoctrine()
             ->getRepository(User::class)
             ->findAll();
@@ -43,7 +78,9 @@ class DashbordController extends AbstractController
             'nbrFacture' => $nbrFacture,
             'nbrUser' => $nbrUser,
             'nbrComment' => $nbrComment,
-            'eventCent' => $eventcent
+            'eventCent' => $eventcent,
+            'userCent' => $userCent,
+            'factrecent'=> $factrecent
         ]);
     }
 
