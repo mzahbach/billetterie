@@ -19,8 +19,18 @@ class DashbordController extends AbstractController
      */
     public function index(EvenementRepository $eventRepo,CategoryPriceRepository $catRepo , CommentRepository $commentRepo ,FactureRepository $factRepo)
     {
+        $now = (new \DateTime());
         
         $nbrevent= count($eventRepo->findAll());
+        foreach ( $eventRepo->findAll() as $event) {
+            if ($event->getDebutAt()->format('m-Y') === $now->format('m-Y')) {
+                $EventMs[] = $event;
+            }
+        }
+        $eventcent= count($EventMs)*100;
+        $eventcent=$eventcent/$nbrevent;
+        $eventcent=intval($eventcent);
+        dump($eventcent);
         $nbrFacture= count($factRepo->findAll());
         $users = $this->getDoctrine()
             ->getRepository(User::class)
@@ -32,7 +42,8 @@ class DashbordController extends AbstractController
             'nbrevent' => $nbrevent,
             'nbrFacture' => $nbrFacture,
             'nbrUser' => $nbrUser,
-            'nbrComment' => $nbrComment
+            'nbrComment' => $nbrComment,
+            'eventCent' => $eventcent
         ]);
     }
 
