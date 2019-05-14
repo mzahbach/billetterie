@@ -500,11 +500,12 @@ class EventfrontController extends AbstractController
         }
         //facture User avec le prix de chaque panier
         $paniers= $panierRepo->findAll();
+       dump($paniers);
         foreach ($paniers as $p) {
             if ($p->getNbrPlace()==0) {
                 $manager->remove($p);
                 $manager->flush();
-            }if ($p->getUsers()== $user and $p->getPack()== $packP and $p->getActive()==false) {
+            }if ($p->getUsers()=== $user and $p->getActive()===false) {
                 $nbr = $p->getNbrPlace() + $nbr;
                 $packC = $p->getPack();
                 $discount = $packC->getDiscount();
@@ -537,7 +538,7 @@ class EventfrontController extends AbstractController
             }*/
            
         }
-        
+        dump($facturesUser);
         //ajouter dans la class facture la facture du user
         $factureC = new Facture();
         $factureC->setTitre($event->getTitre());
@@ -550,6 +551,7 @@ class EventfrontController extends AbstractController
             $descriptioin=$descriptioin.' le nombre de billets reservez est de '.$fact['nbrPack'].' du Pack : '.$fact[ 'titre'].' + ';
             
         }
+        
         $factureC->setDescrptionFacture($descriptioin);
         $factureC->setDevis($event->getDevises()->getTitre());
         $manager->persist($factureC);
@@ -560,7 +562,7 @@ class EventfrontController extends AbstractController
             'UserName'=>$user->getUsername()
         ]);
     
-        dump($facture->getId());
+        
         
         
         return $this->render( 'eventfront/DetailPanier.html.twig',[
@@ -584,7 +586,7 @@ class EventfrontController extends AbstractController
      */
     public function Pstripe($id, Request $request,FactureRepository $factRepo ,ObjectManager $manager){
         $facture = $factRepo->findOneBy(['id'=>$id]);
-        
+        dump($facture);
         $test = $facture->getPrixTotal()*100;
         $devise = "ttd";
         $description = $facture->getTitre();
