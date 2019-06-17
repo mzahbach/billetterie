@@ -87,7 +87,7 @@
                                         
                                     </a>
 
-                                       
+                                    
                                     <span class="js-nbrPtest" id="fff">{{ pack.paniers| length }}</span>
                                     <a href="{{ path('ajouterNbr',{'id' : pack.id }) }}"  class="readmore_btn js-addPanier">
                                         
@@ -109,7 +109,10 @@
             {% endfor %}
 
         </div>
-        <a href="{{ path("detailFacture", {'id': evenement.id}) }}" class="btn btn-rounded btn-block btn-primary">Valider Votre Panier</a>
+       
+            <a id="tojrab" href="{{ path("detailFacture", {'id': evenement.id}) }}" class="btn btn-rounded btn-block btn-primary">Valider Votre Panier</a>
+       
+        
     </div>
 </section>
 

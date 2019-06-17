@@ -193,7 +193,7 @@
                                 <a class="btn-prev fontawesome-angle-left" href="#calemp"></a>
                                 <a class="btn-next fontawesome-angle-right" href="#calemp"></a>
                               </header>
-                              <table>
+                              <table style="margin:auto">
                                 <thead class="event-days">
                                   <tr></tr>
                                 </thead>
@@ -209,7 +209,7 @@
                          <div class="list">
                             {% for evenement in evenements %}
                                 <div class="day-event" date-day="{{ evenement.debutAt ? evenement.debutAt|date('j') }}" date-month="{{ evenement.debutAt ? evenement.debutAt|date('n') }}" date-year="{{ evenement.debutAt ? evenement.debutAt|date('Y') }}"  data-number="1">
-                                        <a href="#" class="close fontawesome-remove"></a>
+                                        <a href="#calemp" class="close fontawesome-remove"></a>
                                         <h2 class="title">{{ evenement.titre }}</h2>
                                         {{ evenement.description }}
                                         <label class="check-btn">

@@ -36,11 +36,11 @@
 }
 
 .calendar tbody td:hover {
-    border: 2px solid #c0392b;
+    border: 2px solid #f50136;
 }
 
 .calendar tbody td.active {
-    border: 2px solid #c0392b;
+    border: 2px solid #f50136;
 }
 
 .calendar td {
@@ -56,7 +56,7 @@
 }
 
 .current-day {
-    background: #c0392b;
+    background: #f50136;
     color: #f9f9f9;
 }
 
@@ -66,7 +66,7 @@
 }
 
 .event:after {
-    background: #c0392b;
+    background: #f50136;
     border-radius: 50%;
     bottom: 8px;
     display: block;
@@ -151,7 +151,7 @@
     color: white;
     text-align: center;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-    background: #c0392b;
+    background: #f50136;
     border: 0;
     border-bottom: 2px solid #b53224;
     cursor: pointer;

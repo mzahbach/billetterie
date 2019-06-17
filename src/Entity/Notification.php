@@ -3,14 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Mgilet\NotificationBundle\Annotation\Notifiable;
-use Mgilet\NotificationBundle\NotifiableInterface;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\NotificationRepository")
- * @Notifiable(name="Notification")
  */
-class Notification implements NotifiableInterface
+class Notification 
 {
     /**
      * @ORM\Id()
@@ -38,6 +36,7 @@ class Notification implements NotifiableInterface
      * @ORM\Column(type="text")
      */
     private $message;
+    
 
     public function getId(): ?int
     {

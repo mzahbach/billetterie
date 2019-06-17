@@ -1,0 +1,68 @@
+
+
+    <!--events section -->
+
+    <div class="container">
+
+        
+                <div class="event_title">
+                   <h1> Vos billets pour :{{ evenement.titre }}</h1>
+                </div>
+                <hr>
+                <div class="speakers">
+                    <strong>{{ evenement.category.titre }}</strong>
+                    <span> {{ evenement.devises.titre }} | emplacement :
+                        {{ evenement.lieux }}</span>
+                </div>
+                <div class="event_date">
+                    Commence le : {{evenement.debutAt ? evenement.debutAt|date('Y-m-d') : '' }} a
+                    {{evenement.debutAt ? evenement.debutAt|date('H:i ') : '' }} <br>
+                    se termine le : {{ evenement.finAt ? evenement.finAt|date('Y-m-d') : '' }} a
+                    {{ evenement.finAt ? evenement.finAt|date('H:i') : '' }}
+
+                </div>
+            </div>
+            <div class="event_word">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-12">
+
+                        detail du film :{{ evenement.description }}
+
+                    </div>
+
+                    <hr>
+
+                    <div class="col-md-6 col-12">
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">detail billet</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>billet de :</td>
+                                    <td>{{ user }}</td>
+                                </tr>
+                                <tr>
+                                    <td>nombre de billet :</td>
+                                    <td>{{ nbrbillet }}</td>
+                                </tr>
+                                {% for p in paniers %}
+                                    <tr>
+                                        <td>nombre de place dans pack {{ p.pack.titre }} :</td>
+                                        <td>{{ p.NbrPlace }}</td>
+                                    </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td>prix total :</td>
+                                    <td>{{ prixTotal }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

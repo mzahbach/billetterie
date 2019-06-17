@@ -31,16 +31,21 @@ use App\Entity\Facture;
 use App\Repository\FactureRepository;
 use App\Entity\Notification;
 use App\Form\NotificationType;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use App\Repository\NewslettreRepository;
+use App\Entity\Newslettre;
 
 /**
  * @Route("/Evento")
  */
-class EventfrontController extends AbstractController
+class EventfrontController extends Controller
 {
     /**
      * @Route("/", name="eventfront")
      */
-    public function index(EvenementRepository $evenementRepository): Response
+    public function index(EvenementRepository $evenementRepository,\Swift_Mailer $mailer): Response
     {  
         $event = new Evenement();
         $n=0;
@@ -58,6 +63,7 @@ class EventfrontController extends AbstractController
                     $EventMs[] = $event;
                 }
         }
+
         if ($EventMs!=null) {
             foreach ($EventMs as $event) {
                 if (count($event->getLikes()) > count($eventLike->getLikes())) {
@@ -70,6 +76,26 @@ class EventfrontController extends AbstractController
             $eventLike=null;
         }
         
+
+        if($now->format('d')==='17'){
+            $html = $this->renderView( 'eventfront/listeEventPDf.html.twig', [
+                'events'=> $events
+            ]);
+
+            $filename = 'filename.pdf';
+            $pdf = $this->get("knp_snappy.pdf")->getOutputFromHtml($html);
+            $message = (new \Swift_Message('Hello Email'))
+                ->setSubject('Confirmation D achat')
+                ->setFrom('bechirmzah@gmail.com')
+                ->setTo($this->getUser()->getEmail())
+                ->setBody('Votre billets si jointe');
+
+
+            $attachement = (new \Swift_Attachment($pdf, $filename, 'application/pdf'));
+            $message->attach($attachement);
+            # Send the message
+            $mailer->send($message);
+        }
         
 
         $events = $evenementRepository->OrderByDate();
@@ -220,7 +246,39 @@ class EventfrontController extends AbstractController
         return $response;
     }
 
+    /**
+     * @Route("/news",name="addnews")
+     * 
+     * Undocumented function
+     *
+     * @param Request $req
+     * @param NewslettreRepository $NlRepo
+     * @return response
+     */
+    public function newslettreAdd(Request $req, ObjectManager $manager):Response{
+       $Email=null;
+        $outputOfFetch=null;
+        if ($req->get('query') !== null) {
+            $Email = $req->get('query');
+            $News =new Newslettre();
+           $News->setEmail($Email);
+            $manager->persist($News);
+            $manager->flush();
+            $outputOfFetch .= '
+                <p>le Email '.$Email.'a bien été ajouter a la liste des news lettre</p>
+               ';
 
+
+
+
+
+        }
+        $response = new Response(json_encode($outputOfFetch));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+       
+    }
 
    /**
     * @Route("/search/{date}/{id}" , defaults={"date" = null},defaults={"id" = null}, name="searchEvent")
@@ -414,22 +472,27 @@ class EventfrontController extends AbstractController
             'Active' => false,
             'users' => $user
         ]);
-        dump($panier);
+        
         $manager->remove($panier);
         $manager->flush();
 
         $facture=$factRepo->findOneBy(['id'=> $id]);
+        dump($facture);
         $user=$this->getUser();
         //code Mail
-        $message = (new \Swift_Message('Hello Email'))
+       /* $message = (new \Swift_Message('Hello Email'))
             ->setSubject('Confirmation D achat')
             ->setFrom('bechirmzah@gmail.com')
             ->setTo($user->getEmail())
             ->setBody($facture->getDescrptionFacture().' pour la somme totale de : '.$facture->getPrixTotal() .'dt');
 
+
+        $attachement = (new \Swift_Attachment( '/TP-MyFinance.pdf', 'filename.pdf', 'application/pdf'));
+        $message->attach($attachement);
         # Send the message
         $mailer->send($message);
-        //fin code Mail
+        
+        //fin code Mail*/
         return $this->render('eventfront/PaymentEffectuer.html.twig',[
             'facture'=> $facture
         ]);
@@ -500,7 +563,7 @@ class EventfrontController extends AbstractController
         }
         //facture User avec le prix de chaque panier
         $paniers= $panierRepo->findAll();
-       dump($paniers);
+       
         foreach ($paniers as $p) {
             if ($p->getNbrPlace()==0) {
                 $manager->remove($p);
@@ -551,7 +614,7 @@ class EventfrontController extends AbstractController
             $descriptioin=$descriptioin.' le nombre de billets reservez est de '.$fact['nbrPack'].' du Pack : '.$fact[ 'titre'].' + ';
             
         }
-        
+        dump($factureC->getPrixTotal());
         $factureC->setDescrptionFacture($descriptioin);
         $factureC->setDevis($event->getDevises()->getTitre());
         $manager->persist($factureC);
@@ -574,6 +637,59 @@ class EventfrontController extends AbstractController
         ]);
     }
 
+
+
+    /**
+     * @Route("/pdf", name="pdf")
+     *
+     * @param PanierRepository $PanierRepo
+     * @param \Swift_Mailer $mailer
+     * @return void
+     */
+    public function facturePdf(PanierRepository $PanierRepo, \Swift_Mailer $mailer):Response
+    {
+        //generation pdf
+        $paniers = $PanierRepo->findAll();
+        $prixTotal = 0;
+        $nbrbillet = 0;
+        foreach ($paniers as $p) {
+
+            $event = $p->getPack()->getEvent();
+            $nbrbillet = $nbrbillet + $p->getNbrPlace();
+            $prixTotal = $prixTotal + ($p->getPack()->getEvent()->getPrix() - ($p->getPack()->getEvent()->getPrix() * $p->getPack()->getDiscount()));
+            $prixTotal = $prixTotal * $p->getNbrPlace();
+        }
+       
+        
+        $html = $this->renderView( 'eventfront/facturepdf.html.twig', [
+            'panier' => $paniers,
+            'evenement' => $event,
+            'prixTotal' => $prixTotal,
+            'paniers' => $paniers,
+            'user' => $this->getUser()->getUsername(),
+            'nbrbillet' => $nbrbillet
+        ]);
+
+        $filename = 'filename.pdf';
+        $pdf = $this->get("knp_snappy.pdf")->getOutputFromHtml($html);
+        $message = (new \Swift_Message('Hello Email'))
+            ->setSubject('Confirmation D achat')
+            ->setFrom('bechirmzah@gmail.com')
+            ->setTo($this->getUser()->getEmail())
+            ->setBody('test');
+
+
+        $attachement = (new \Swift_Attachment( $pdf, $filename, 'application/pdf'));
+        $message->attach($attachement);
+        # Send the message
+        $mailer->send($message);
+
+        return new Response("The PDF file has been succesfully generated !");
+       
+    }
+
+
+
     /**
      * Undocumented function payelent avec le bundel stripe
      * 
@@ -584,8 +700,36 @@ class EventfrontController extends AbstractController
      * @param FactureRepository $factRepo
      * @return void
      */
-    public function Pstripe($id, Request $request,FactureRepository $factRepo ,ObjectManager $manager){
-        $facture = $factRepo->findOneBy(['id'=>$id]);
+    public function Pstripe($id, Request $request,FactureRepository $factRepo ,PanierRepository $PanierRepo,ObjectManager $manager , \Swift_Mailer $mailer){
+        $facture = $factRepo->findOneBy(['id' => $id]);
+        //generation pdf
+        $paniers = $PanierRepo->findAll();
+        $prixTotal = 0;
+        $nbrbillet = 0;
+        foreach ($paniers as $p) {
+
+            $event = $p->getPack()->getEvent();
+            $nbrbillet = $nbrbillet + $p->getNbrPlace();
+            $prixTotal = $prixTotal + ($p->getPack()->getEvent()->getPrix() - ($p->getPack()->getEvent()->getPrix() * $p->getPack()->getDiscount()));
+            $prixTotal = $prixTotal * $p->getNbrPlace();
+        }
+
+
+        $html = $this->renderView('eventfront/facturepdf.html.twig', [
+            'panier' => $paniers,
+            'evenement' => $event,
+            'prixTotal' => $prixTotal,
+            'paniers' => $paniers,
+            'user' => $this->getUser()->getUsername(),
+            'nbrbillet' => $nbrbillet
+        ]);
+
+        $filename = 'filename.pdf';
+        $pdf = $this->get("knp_snappy.pdf")->getOutputFromHtml($html);
+        
+        
+        //pstripe
+        
         dump($facture);
         $test = $facture->getPrixTotal()*100;
         $devise = "ttd";
@@ -602,6 +746,18 @@ class EventfrontController extends AbstractController
             $facture->setTransaction(true);
             $manager->persist($facture);
             $manager->flush();
+
+        $message = (new \Swift_Message('Hello Email'))
+            ->setSubject('Confirmation D achat')
+            ->setFrom('bechirmzah@gmail.com')
+            ->setTo($this->getUser()->getEmail())
+            ->setBody('Votre billets si jointe');
+
+
+        $attachement = (new \Swift_Attachment($pdf, $filename, 'application/pdf'));
+        $message->attach($attachement);
+        # Send the message
+        $mailer->send($message);
         return $this->render( 'eventfront/factureP.html.twig', [
             'controller_name' => 'PstripeController',
             'facture' => $facture
@@ -697,7 +853,7 @@ class EventfrontController extends AbstractController
     
 
     /**
-     * premet de liker et unliker un event  
+     * premet de liker et un liker un event  
      *
      * @Route("/post/{id}/like", name="post_like")
      * 

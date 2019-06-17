@@ -132,6 +132,7 @@
                                 </div>
                             </div>
                         </div>
+                        
             
                         
             
@@ -144,9 +145,21 @@
                                 </div>
                                 <div class="footer_box_body">
                                     <div class="newsletter_form">
-                                        <input type="email" class="form-control" placeholder="E-Mail here">
-                                        <button class="btn btn-rounded btn-block btn-primary">SUBSCRIBE</button>
+                                        <input type="email" id="newsEmail" class="form-control" placeholder="E-Mail ici">
+                                        <button class="btn btn-rounded btn-block btn-primary" id="btn-submitnewEmail">ENREGISTRER</button>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <div class="footer_box">
+                        
+                                <div class="footer_box_body">
+                                    <div id="js-resultNews">
+                        
+                                    </div>
+                        
+                        
                                 </div>
                             </div>
                         </div>
@@ -351,7 +364,8 @@
         const parent = spanCount.parentNode;
         const parentOfParent = parent.parentNode;
         const spanCounttest = parentOfParent.querySelector('span.js-nbrPtest');
-        
+        const Element = document.getElementById('#tojrab');
+        console.log(Element);
          
         axios.get(url).then(function (response) {
             console.log(response);
@@ -387,7 +401,59 @@
 
 
 </script>
+<script>
+   /* const newsletter_form = {
+            newsEmail: document.getElementById('newsEmail'),
+            submitnewEmail :document.getElementById('btn-submitnewEmail'),
+    };
+    newsletter_form.submitnewEmail.addEventListener('click',()=>{
+        console.log('button pressed');
+        const request = new XMLHttpRequest();
+        request.onload = () => {
+            console.log(request.responseText);
+            let responseObject = null;
 
+           
+        };
+
+        const requestData = newsletter_form.newsEmail.value; 
+        console.log(requestData);
+
+        request.open('post',' http://127.0.0.1:8000/Evento/news');
+        request.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+        request.send(requestData);
+        
+
+
+    } );*/
+
+   
+    $(document).ready(function () {
+
+        newslettr();
+
+        function newslettr(query) {
+            $.ajax({
+                url: "http://127.0.0.1:8000/Evento/news",
+                method: "POST",
+                data: { query: query },
+                success: function (data) {
+                    $('#js-resultNews').html(data);
+                }
+            });
+        }
+        $('#btn-submitnewEmail').click(function () {
+            var Email =  document.getElementById('newsEmail').value;
+            console.log(Email);
+            if (Email != '') {
+                newslettr(Email);
+                console.log(Email);
+
+
+            }
+        });
+    });
+</script>
 
     {% endblock %}
 </body>

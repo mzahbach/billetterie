@@ -1,0 +1,27 @@
+<div class="container">
+    
+        <table border="1">
+            <thead>
+                <tr>
+                    <th colspan="2">liste evenements</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>titre</td>
+                    <td>date debut </td>
+                    <td>prix </td>
+                </tr>
+                {% for event in events %}
+                    
+                
+              <tr>
+                    <td>{{ event.titre }}</td>
+                    <td>{{ event.debutAt ? event.debutAt|date('Y-m-d') : '' }}</td>
+                    <td>{{ event.prix }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+   
+</div>
