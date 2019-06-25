@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Newslettre index{% endblock %}
+
+{% block body %}
+    <h1>Newslettre index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for newslettre in newslettres %}
+            <tr>
+                <td>{{ newslettre.id }}</td>
+                <td>{{ newslettre.Email }}</td>
+                <td>
+                    <a href="{{ path('newslettre_show', {'id': newslettre.id}) }}">show</a>
+                    <a href="{{ path('newslettre_edit', {'id': newslettre.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('newslettre_new') }}">Create new</a>
+{% endblock %}

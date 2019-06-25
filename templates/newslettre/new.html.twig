@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Newslettre{% endblock %}
+
+{% block body %}
+    <h1>Create new Newslettre</h1>
+
+    {{ include('newslettre/_form.html.twig') }}
+
+    <a href="{{ path('newslettre_index') }}">back to list</a>
+{% endblock %}
